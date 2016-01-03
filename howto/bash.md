@@ -220,3 +220,14 @@ add to end of the file:
 oneliner:
 
     echo administrator ALL=NOPASSWD: ALL | sudo tee /etc/sudoers.d/administrator
+
+sed remove comments
+-------------------
+
+multiline commment blocks
+
+	sed '/\/\*/,/\*\//d inputFile
+
+single line comments
+
+	sed 's/#.*$//g' FileName
