@@ -13,15 +13,9 @@ Config
 
     git config --global user.name "Marchenko Alexandr"
     git config --global user.email "marchenko.alexandr@gmail.com"
-    git config --global credential.helper "cache --timeout=3600"
-    git config --global color.branch auto
-    git config --global color.diff auto
-    git config --global color.interactive auto
-    git config --global color.status auto
-    git config --global core.safecrlf true
-    git config --global core.autocrlf input # on unix like os
-    git config --global core.autocrlf true  # on windows (not needed with new client)
-    git config --global core.excludesfile ~/Dropbox/Public/gitignore_global.txt
+    git config --global core.safecrlf false
+    git config --global core.autocrlf true
+
 
 Stage deleted files
 -------------------
@@ -138,6 +132,16 @@ Submodules
 ----------
 
 To ignore `dirty` changes add `ignore = dirty` to problematic submodule in youd `.gitmodules` file
+
+Update forkede repo
+-------------------
+
+    git remote add upstream https://github.com/acme/project.git
+    git fetch upstream
+    git checkout master
+    git rebase upstream/master
+    # - or -
+    git merge upstream/master
 
 
 Links
