@@ -339,3 +339,28 @@ So now we can just require our helper and run it as we need, but what about coff
     control_flow.limited [1, 2, 3, 4, 5, 6], async, final
 
 Again thanks to authors of http://book.mixu.net/ch7.html page for such great info. Also notice that at moment there is many ready to use libraries that allow do all this.
+
+ES6 Promise Serial
+------------------
+
+    var series = (items, async) => new Promise(resolve => {
+      let results = []
+
+      const launcher = item => {
+        if (item) {
+          async(item).then(result => {
+            results.push(result)
+            return launcher(items.shift())
+          })
+        } else {
+          resolve(results)
+        }
+      }
+
+      launcher(items.shift())
+    })
+
+    var urls = ['https://angular-university.io/api/courses/getting-started-with-angular2', 'https://angular-university.io/api/courses/angular2-http']
+    var async = url => fetch(url).then(r => r.json())
+
+    series(urls, async).then(i => console.log(i))
