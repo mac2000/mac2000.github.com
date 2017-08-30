@@ -343,7 +343,7 @@ tags: [add_menu_page, add_meta_box, add_submenu_page, admin_menu, dbDelta, do_me
             $total_items = $wpdb->get_var("SELECT COUNT(id) FROM $table_name");
 
             // prepare query params, as usual current page, order by and order direction
-            $paged = isset($_REQUEST['paged']) ? max(0, intval($_REQUEST['paged']) - 1) : 0;
+            $paged = isset($_REQUEST['paged']) ? ($per_page * max(0, intval($_REQUEST['paged']) - 1)) : 0;
             $orderby = (isset($_REQUEST['orderby']) && in_array($_REQUEST['orderby'], array_keys($this->get_sortable_columns()))) ? $_REQUEST['orderby'] : 'name';
             $order = (isset($_REQUEST['order']) && in_array($_REQUEST['order'], array('asc', 'desc'))) ? $_REQUEST['order'] : 'asc';
 
