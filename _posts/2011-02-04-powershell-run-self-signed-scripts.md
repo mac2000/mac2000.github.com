@@ -7,16 +7,22 @@ tags: [admin, administration, allsigned, authenticodesignature, cert, certificat
 
 Run console as Administrator and execute following commands:
 
-    "C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\x64\makecert.exe" -n "CN=PowerShell Local Certificate Root" -a sha1 -eku 1.3.6.1.5.5.7.3.3 -r -sv root.pvk root.cer -ss Root -sr localMachine
-    "C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\x64\makecert.exe" -pe -n "CN=PowerShell User" -ss MY -a sha1 -eku 1.3.6.1.5.5.7.3.3 -iv root.pvk -ic root.cer
+```powershell
+"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\x64\makecert.exe" -n "CN=PowerShell Local Certificate Root" -a sha1 -eku 1.3.6.1.5.5.7.3.3 -r -sv root.pvk root.cer -ss Root -sr localMachine
+"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\x64\makecert.exe" -pe -n "CN=PowerShell User" -ss MY -a sha1 -eku 1.3.6.1.5.5.7.3.3 -iv root.pvk -ic root.cer
+```
 
 Then from powershell with Administrator privilegies allow execute selfsigned scripts
 
-    set-executionpolicy AllSigned
+```powershell
+set-executionpolicy AllSigned
+```
 
 Then
 
-    Set-AuthenticodeSignature C:\Users\mac\Scripts\ImagesShedule.ps1 @(Get-ChildItem cert:\CurrentUser\My -codesigning)[0]
+```powershell
+Set-AuthenticodeSignature C:\Users\mac\Scripts\ImagesShedule.ps1 @(Get-ChildItem cert:\CurrentUser\My -codesigning)[0]
+```
 
 makecert.exe ships with Microsoft Windows Software Development Kit, available at http://msdn.microsoft.com/en-us/windowsserver/bb980924.aspx.
 

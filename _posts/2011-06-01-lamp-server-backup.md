@@ -17,20 +17,26 @@ http://sourceforge.net/projects/simplebashbu/
 
 put them somewhere and make them executable.
 
-    #make skripts executable
-    chmod +x /home/simplebashbu.sh
-    chmod +x /home/automysqlbackup.sh
-    #make links of scripts to run every day
-    ln -s /home/simplebashbu.sh /etc/cron.daily/
-    ln -s /home/automysqlbackup.sh /etc/cron.daily/
+```sh
+#make skripts executable
+chmod +x /home/simplebashbu.sh
+chmod +x /home/automysqlbackup.sh
+#make links of scripts to run every day
+ln -s /home/simplebashbu.sh /etc/cron.daily/
+ln -s /home/automysqlbackup.sh /etc/cron.daily/
+```
 
 In my centos mail was not installed so simlebashby was not able to send email, to fix run:
 
-    yum install mailx
+```sh
+yum install mailx
+```
 
 To download backups:
 
-    wget -m ftp://LOGIN:PASSWORD@example.com/backups -P C:\Users\mac\Desktop\
+```sh
+wget -m ftp://LOGIN:PASSWORD@example.com/backups -P C:\Users\mac\Desktop\
+```
 
 Wget for windows: http://gnuwin32.sourceforge.net/packages/wget.htm
 

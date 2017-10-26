@@ -10,12 +10,14 @@ Usually what you will do is save json files in your solution and read them as ne
 
 So everywhere in your tests you will have something like:
 
-    [TestMethod]
-    public void TestResponseMappingStarterKit()
-    {
-        var fakeResponse = File.ReadAllText("../../Fakes/Json/FakeResponse.json");
-        //...
-    }
+```csharp
+[TestMethod]
+public void TestResponseMappingStarterKit()
+{
+    var fakeResponse = File.ReadAllText("../../Fakes/Json/FakeResponse.json");
+    //...
+}
+```
 
 What I do not like about this is: Whenever you rename and or move your file things will brake, and there is no way you may fix/refactor tests except dummy find and replace which may brake other things.
 
@@ -23,59 +25,65 @@ There is alternative way - T4.
 
 **Json.tt**
 
-    <#@ template debug="false" hostspecific="true" language="C#" #>
-    <#@ assembly name="System.Core" #>
-    <#@ import namespace="System.Linq" #>
-    <#@ import namespace="System.Text" #>
-    <#@ import namespace="System.Collections.Generic" #>
-    <#@ import namespace="System.IO" #>
-    <#@ output extension=".cs" #>
-    namespace Tests.Fakes
+```csharp
+<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>
+<#@ output extension=".cs" #>
+namespace Tests.Fakes
+{
+    public static class Json
     {
-        public static class Json
+<# foreach(var file in Directory.GetFiles(Host.ResolvePath(""), "*.json", SearchOption.AllDirectories)) { #>
+        /// <summary>
+        /// <#= file.Replace(Host.ResolvePath(""), "").Trim('\\') #>
+        /// </summary>
+        public static string <#= Path.GetFileNameWithoutExtension(file) #>
         {
-    <# foreach(var file in Directory.GetFiles(Host.ResolvePath(""), "*.json", SearchOption.AllDirectories)) { #>
-            /// <summary>
-            /// <#= file.Replace(Host.ResolvePath(""), "").Trim('\\') #>
-            /// </summary>
-            public static string <#= Path.GetFileNameWithoutExtension(file) #>
+            get
             {
-                get
-                {
-                    return @"<#= File.ReadAllText(file).Replace("\"", "\"\"") #>";
-                }
+                return @"<#= File.ReadAllText(file).Replace("\"", "\"\"") #>";
             }
-    <# } #>
         }
+<# } #>
     }
+}
+```
 
 So from now on you will have your static `Json` class which contains all fakes, it will look something like this:
 
-    namespace Tests.Fakes
+```csharp
+namespace Tests.Fakes
+{
+    public static class Json
     {
-        public static class Json
+        /// <summary>
+        /// Json\FakeResponse.json
+        /// </summary>
+        public static string FakeResponse
         {
-            /// <summary>
-            /// Json\FakeResponse.json
-            /// </summary>
-            public static string FakeResponse
+            get
             {
-                get
-                {
-                    return @"{""foo"": ""bar""}";
-                }
+                return @"{""foo"": ""bar""}";
             }
         }
     }
+}
+```
 
 and your tests will look like this:
 
-    [TestMethod]
-    public void TestResponseMappingStarterKit()
-    {
-        var fakeResponse = Fakes.Json.FakeResponse;
-        //...
-    }
+```csharp
+[TestMethod]
+public void TestResponseMappingStarterKit()
+{
+    var fakeResponse = Fakes.Json.FakeResponse;
+    //...
+}
+```
 
 Now imagine how much confident you fill be after renaming your fake files. Your tests just wont compile, and you will be able to fix things with build in refactor tools.
 

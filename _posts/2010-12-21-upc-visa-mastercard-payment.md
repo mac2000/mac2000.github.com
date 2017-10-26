@@ -81,64 +81,72 @@ test-server.cert - файл который они выслали в письм�
 
 Код страницы заказа:
 
-    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-    <html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Buy</title>
-    </head>
-    <body>
+```php
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Buy</title>
+</head>
+<body>
 
-    <?php
-    $MerchantID = '1753019';
-    $TerminalID = 'E7881019';
-    $OrderID = 19;
-    $PurchaseTime = date("ymdHis") ;
-    $TotalAmount = 242;
-    $CurrencyID = 980;
-    $data = "$MerchantID;$TerminalID;$PurchaseTime;$OrderID;$CurrencyID;$TotalAmount;;";
-    $fp = fopen("$MerchantID.pem", "r");
-    $priv_key = fread($fp, 8192);
-    fclose($fp);
-    $pkeyid = openssl_get_privatekey($priv_key);
-    openssl_sign( $data , $signature, $pkeyid);
-    openssl_free_key($pkeyid);
-    $b64sign = base64_encode($signature);
-    ?>
+<?php
+$MerchantID = '1753019';
+$TerminalID = 'E7881019';
+$OrderID = 19;
+$PurchaseTime = date("ymdHis") ;
+$TotalAmount = 242;
+$CurrencyID = 980;
+$data = "$MerchantID;$TerminalID;$PurchaseTime;$OrderID;$CurrencyID;$TotalAmount;;";
+$fp = fopen("$MerchantID.pem", "r");
+$priv_key = fread($fp, 8192);
+fclose($fp);
+$pkeyid = openssl_get_privatekey($priv_key);
+openssl_sign( $data , $signature, $pkeyid);
+openssl_free_key($pkeyid);
+$b64sign = base64_encode($signature);
+?>
 
-    <form action="https://secure.upc.ua/ecgtest/enter" method="post" >
-       <input name="Version" type="hidden" value="1" />
-       <input name="MerchantID" type="hidden" value="<?php echo $MerchantID?>" />
-       <input name="TerminalID" type="hidden" value="<?php echo $TerminalID?>" />
-       <input name="TotalAmount" type="hidden" value="<?php echo $TotalAmount?>" />
-       <input name="Currency" type="hidden" value="<?php echo $CurrencyID?>" />
-       <input name="locale" type="hidden" value="RU" />
-       <input name="PurchaseTime" type="hidden" value="<?php echo $PurchaseTime ?>" />
-       <input name="OrderID" type="hidden" value="<?php echo $OrderID?>" />
-       <input name="Signature" type="hidden" value="<?php echo "$b64sign" ?>"/>
-       Sum: <?php echo $TotalAmount?> <input type="submit"/>
-    </form>
+<form action="https://secure.upc.ua/ecgtest/enter" method="post" >
+    <input name="Version" type="hidden" value="1" />
+    <input name="MerchantID" type="hidden" value="<?php echo $MerchantID?>" />
+    <input name="TerminalID" type="hidden" value="<?php echo $TerminalID?>" />
+    <input name="TotalAmount" type="hidden" value="<?php echo $TotalAmount?>" />
+    <input name="Currency" type="hidden" value="<?php echo $CurrencyID?>" />
+    <input name="locale" type="hidden" value="RU" />
+    <input name="PurchaseTime" type="hidden" value="<?php echo $PurchaseTime ?>" />
+    <input name="OrderID" type="hidden" value="<?php echo $OrderID?>" />
+    <input name="Signature" type="hidden" value="<?php echo "$b64sign" ?>"/>
+    Sum: <?php echo $TotalAmount?> <input type="submit"/>
+</form>
 
-    </body>
-    </html>
+</body>
+</html>
+```
 
 Примечание:
 
 `$data` генериться следующим образом
 
-    MerchantId;TerminalId;PurchaseTime;OrderId,Delay;CurrencyId,AltCurrencyId;Amount,AltAmount;SessionData(SD);
+```
+MerchantId;TerminalId;PurchaseTime;OrderId,Delay;CurrencyId,AltCurrencyId;Amount,AltAmount;SessionData(SD);
+```
 
 Количество знаков `;` должно оставаться постоянным. Если какое то поле отсутствует, то ставится `;;`. Например, если отсутствует `SessionData(SD)`, то datafile будет выглядеть следующим образом:
 
-    MerchantId;TerminalId;PurchaseTime;OrderId,Delay;CurrencyId,AltCurrencyId;Amount,AltAmount;;
+```
+MerchantId;TerminalId;PurchaseTime;OrderId,Delay;CurrencyId,AltCurrencyId;Amount,AltAmount;;
+```
 
 Если отсутствуют поля `Delay` или `AltCurrency`, `AltAmount` то запятая перед этими полями опускается. Например:
 
-    MerchantId;TerminalId;PurchaseTime;OrderId;CurrencyId,AltCurrencyId;Amount,AltAmount;;
+```
+MerchantId;TerminalId;PurchaseTime;OrderId;CurrencyId,AltCurrencyId;Amount,AltAmount;;
 
-    MerchantId;TerminalId;PurchaseTime;OrderId,Delay;CurrencyId;Amount;;
+MerchantId;TerminalId;PurchaseTime;OrderId,Delay;CurrencyId;Amount;;
 
-    MerchantId;TerminalId;PurchaseTime;OrderId;CurrencyId;Amount;;
+MerchantId;TerminalId;PurchaseTime;OrderId;CurrencyId;Amount;;
+```
 
 в нашем случае использовался последний пример. Важно соблюдать порядок иначе ничего работать не будет, в коде использован самый простой рабочий пример.
 
@@ -147,59 +155,61 @@ test-server.cert - файл который они выслали в письм�
 
 Код страницы:
 
-    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-    <html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Buy</title>
-    </head>
+```php
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Buy</title>
+</head>
 
-    <body>
+<body>
 
-    <h1>SUCCESS</h1>
+<h1>SUCCESS</h1>
 
-    <h2>$_POST</h2>
-    <pre><code><?php print_r($_POST)?></code></pre>
+<h2>$_POST</h2>
+<pre><code><?php print_r($_POST)?></code></pre>
 
-    <h2>Proccessing</h2>
+<h2>Proccessing</h2>
 
-    <?php
+<?php
 
-    $MerchantID = $_POST['MerchantID'];
-    $TerminalID = $_POST['TerminalID'];
-    $OrderID = $_POST['OrderID'];
-    $PurchaseTime = $_POST['PurchaseTime'];
-    $TotalAmount = $_POST['TotalAmount'];
-    $CurrencyID = $_POST['Currency'];
-    $XID = $_POST['XID'];
-    $SD = $_POST['SD'];
-    $TranCode = $_POST['TranCode'];
-    $ApprovalCode = $_POST['ApprovalCode'];
+$MerchantID = $_POST['MerchantID'];
+$TerminalID = $_POST['TerminalID'];
+$OrderID = $_POST['OrderID'];
+$PurchaseTime = $_POST['PurchaseTime'];
+$TotalAmount = $_POST['TotalAmount'];
+$CurrencyID = $_POST['Currency'];
+$XID = $_POST['XID'];
+$SD = $_POST['SD'];
+$TranCode = $_POST['TranCode'];
+$ApprovalCode = $_POST['ApprovalCode'];
 
-    $data = "$MerchantID;$TerminalID;$PurchaseTime;$OrderID;$XID;$CurrencyID;$TotalAmount;$SD;$TranCode;$ApprovalCode;";
+$data = "$MerchantID;$TerminalID;$PurchaseTime;$OrderID;$XID;$CurrencyID;$TotalAmount;$SD;$TranCode;$ApprovalCode;";
 
-    echo 'data: '.$data.'<br />';
+echo 'data: '.$data.'<br />';
 
-    $signature = $HTTP_POST_VARS["Signature"];
-    $signature = base64_decode($signature) ;
-    $fp = fopen("test-server.cert", "r");
-    $cert = fread($fp, 8192);
-    fclose($fp);
-    $pubkeyid = openssl_get_publickey($cert);
+$signature = $HTTP_POST_VARS["Signature"];
+$signature = base64_decode($signature) ;
+$fp = fopen("test-server.cert", "r");
+$cert = fread($fp, 8192);
+fclose($fp);
+$pubkeyid = openssl_get_publickey($cert);
 
-    $ok = openssl_verify($data, $signature, $pubkeyid);
-    if ($ok == 1) {
-       echo "good";
-    } elseif ($ok == 0) {
-       echo "bad";
-    } else {
-       echo "ugly, error checking signature";
-    }
-    openssl_free_key($pubkeyid);
-    ?>
+$ok = openssl_verify($data, $signature, $pubkeyid);
+if ($ok == 1) {
+    echo "good";
+} elseif ($ok == 0) {
+    echo "bad";
+} else {
+    echo "ugly, error checking signature";
+}
+openssl_free_key($pubkeyid);
+?>
 
-    </body>
-    </html>
+</body>
+</html>
+```
 
 Если все прошло успешно скрипт вернет good что говорит о том что проплата прошла успешно.
 
@@ -207,7 +217,9 @@ test-server.cert - файл который они выслали в письм�
 
 Тут тоже очень важно не напортачить с переменной $data, которая генериться следующим образом:
 
-    MerchantId;TerminalId;PurchaseTime;OrderId,Delay;Xid;CurrencyId,AltCurrencyId;Amount,AltAmount;SessionData;TranCode;ApprovalCode;
+```
+MerchantId;TerminalId;PurchaseTime;OrderId,Delay;Xid;CurrencyId,AltCurrencyId;Amount,AltAmount;SessionData;TranCode;ApprovalCode;
+```
 
 Правила те же самые если полей типа `Delay`, `AltCurrencyId`, `AltAmount` нет - запятая перед ними удаляется
 
@@ -270,22 +282,24 @@ test-server.cert - файл который они выслали в письм�
 
 Примечание: Генерация сигнатуры
 
-    <?php
-    $MerchantID = '1753019';
-    $TerminalID = 'E7881019';
-    $OrderID = 19;
-    $PurchaseTime = date("ymdHis") ;
-    $TotalAmount = 242;
-    $CurrencyID = 980;
-    $data = "$MerchantID;$TerminalID;$PurchaseTime;$OrderID;$CurrencyID;$TotalAmount;;";
-    $fp = fopen("$MerchantID.pem", "r");
-    $priv_key = fread($fp, 8192);
-    fclose($fp);
-    $pkeyid = openssl_get_privatekey($priv_key);
-    openssl_sign( $data , $signature, $pkeyid);
-    openssl_free_key($pkeyid);
-    $b64sign = base64_encode($signature);
-    ?>
+```php
+<?php
+$MerchantID = '1753019';
+$TerminalID = 'E7881019';
+$OrderID = 19;
+$PurchaseTime = date("ymdHis") ;
+$TotalAmount = 242;
+$CurrencyID = 980;
+$data = "$MerchantID;$TerminalID;$PurchaseTime;$OrderID;$CurrencyID;$TotalAmount;;";
+$fp = fopen("$MerchantID.pem", "r");
+$priv_key = fread($fp, 8192);
+fclose($fp);
+$pkeyid = openssl_get_privatekey($priv_key);
+openssl_sign( $data , $signature, $pkeyid);
+openssl_free_key($pkeyid);
+$b64sign = base64_encode($signature);
+?>
+```
 
 Данные которые получаем в ответ
 
@@ -315,37 +329,39 @@ test-server.cert - файл который они выслали в письм�
 
 Проверка данный ответа
 
-    <?php
+```php
+<?php
 
-    $MerchantID = $_POST['MerchantID'];
-    $TerminalID = $_POST['TerminalID'];
-    $OrderID = $_POST['OrderID'];
-    $PurchaseTime = $_POST['PurchaseTime'];
-    $TotalAmount = $_POST['TotalAmount'];
-    $CurrencyID = $_POST['Currency'];
-    $XID = $_POST['XID'];
-    $SD = $_POST['SD'];
-    $TranCode = $_POST['TranCode'];
-    $ApprovalCode = $_POST['ApprovalCode'];
+$MerchantID = $_POST['MerchantID'];
+$TerminalID = $_POST['TerminalID'];
+$OrderID = $_POST['OrderID'];
+$PurchaseTime = $_POST['PurchaseTime'];
+$TotalAmount = $_POST['TotalAmount'];
+$CurrencyID = $_POST['Currency'];
+$XID = $_POST['XID'];
+$SD = $_POST['SD'];
+$TranCode = $_POST['TranCode'];
+$ApprovalCode = $_POST['ApprovalCode'];
 
-    $data = "$MerchantID;$TerminalID;$PurchaseTime;$OrderID;$XID;$CurrencyID;$TotalAmount;$SD;$TranCode;$ApprovalCode;";
+$data = "$MerchantID;$TerminalID;$PurchaseTime;$OrderID;$XID;$CurrencyID;$TotalAmount;$SD;$TranCode;$ApprovalCode;";
 
-    echo 'data: '.$data.'<br />';
+echo 'data: '.$data.'<br />';
 
-    $signature = $HTTP_POST_VARS["Signature"];
-    $signature = base64_decode($signature) ;
-    $fp = fopen("test-server.cert", "r");
-    $cert = fread($fp, 8192);
-    fclose($fp);
-    $pubkeyid = openssl_get_publickey($cert);
+$signature = $HTTP_POST_VARS["Signature"];
+$signature = base64_decode($signature) ;
+$fp = fopen("test-server.cert", "r");
+$cert = fread($fp, 8192);
+fclose($fp);
+$pubkeyid = openssl_get_publickey($cert);
 
-    $ok = openssl_verify($data, $signature, $pubkeyid);
-    if ($ok == 1) {
-       echo "good";
-    } elseif ($ok == 0) {
-       echo "bad";
-    } else {
-       echo "ugly, error checking signature";
-    }
-    openssl_free_key($pubkeyid);
-    ?>
+$ok = openssl_verify($data, $signature, $pubkeyid);
+if ($ok == 1) {
+    echo "good";
+} elseif ($ok == 0) {
+    echo "bad";
+} else {
+    echo "ugly, error checking signature";
+}
+openssl_free_key($pubkeyid);
+?>
+```

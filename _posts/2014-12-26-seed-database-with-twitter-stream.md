@@ -10,52 +10,56 @@ Twitter has streeam api which will give you 1+ tweets per second with huge amoun
 
 Here is short examples:
 
-    //Program.cs - C# example
-    //Tweetinvi package required
-    static void Main(string[] args)
+```csharp
+//Program.cs - C# example
+//Tweetinvi package required
+static void Main(string[] args)
+{
+
+
+    TwitterCredentials.SetCredentials(
+        "Access Token",
+        "Access Token Secret",
+        "Consumer Key (API Key)",
+        "Consumer Secret (API Secret)"
+    );
+
+    var stream = Stream.CreateSampleStream();
+
+    stream.TweetReceived += (sender, arg) =>
     {
+        Console.WriteLine(arg.Tweet.Text); //TODO: write tweet to database
+    };
 
-
-        TwitterCredentials.SetCredentials(
-            "Access Token",
-            "Access Token Secret",
-            "Consumer Key (API Key)",
-            "Consumer Secret (API Secret)"
-        );
-
-        var stream = Stream.CreateSampleStream();
-
-        stream.TweetReceived += (sender, arg) =>
-        {
-            Console.WriteLine(arg.Tweet.Text); //TODO: write tweet to database
-        };
-
-        stream.StartStream();
-    }
+    stream.StartStream();
+}
+```
 
 and one more:
 
-    <?php
-    require_once 'vendor/autoload.php';
+```php
+<?php
+require_once 'vendor/autoload.php';
 
-    // themattharris/tmhoauth package required
+// themattharris/tmhoauth package required
 
-    $twitter = new tmhOAuth([
-        'consumer_key'    => '',
-        'consumer_secret' => '',
-        'token'           => '',
-        'secret'          => ''
-    ]);
+$twitter = new tmhOAuth([
+    'consumer_key'    => '',
+    'consumer_secret' => '',
+    'token'           => '',
+    'secret'          => ''
+]);
 
-    function streaming_callback($data)
-    {
-        $data = json_decode($data, true);
-        print_r($data);
-    }
+function streaming_callback($data)
+{
+    $data = json_decode($data, true);
+    print_r($data);
+}
 
-    $twitter->streaming_request(
-        'GET',
-        'https://stream.twitter.com/1.1/statuses/sample.json',
-        [],
-        'streaming_callback'
-    );
+$twitter->streaming_request(
+    'GET',
+    'https://stream.twitter.com/1.1/statuses/sample.json',
+    [],
+    'streaming_callback'
+);
+```

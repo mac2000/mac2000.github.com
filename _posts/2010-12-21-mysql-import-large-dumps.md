@@ -7,8 +7,12 @@ tags: [backup, export, import, mysql, restore, mysqldump]
 
 **Import**
 
-    mysql -u username --password=password database_name < filename.sql
+```sh
+mysql -u username --password=password database_name < filename.sql
+```
 
 **Export**
 
-    mysqldump -u USER --password=PASSWORD DATABASE > filename.sql
+```sh
+mysqldump -u USER --password=PASSWORD DATABASE > filename.sql
+```

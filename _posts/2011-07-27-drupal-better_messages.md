@@ -11,8 +11,10 @@ http://drupal.org/project/better_messages
 
 **Styles:**
 
-    #better-messages-default div.status,
-    #better-messages-default div.error,
-    #better-messages-default div.warning {padding:0 10px;background:none;border:none;}
+```css
+#better-messages-default div.status,
+#better-messages-default div.error,
+#better-messages-default div.warning {padding:0 10px;background:none;border:none;}
+```
 
 ![screenshot](/images/wp/211.png)

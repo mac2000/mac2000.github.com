@@ -7,8 +7,10 @@ tags: [child, grabber, html, jquery, link, parser, replacewith, text, unwrap]
 
 Two ways:
 
-    $('a').contents().unwrap();
+```js
+$('a').contents().unwrap();
 
-    $('a').each(function() {
-        $(this).replaceWith(this.childNodes);
-    });
+$('a').each(function() {
+    $(this).replaceWith(this.childNodes);
+});
+```

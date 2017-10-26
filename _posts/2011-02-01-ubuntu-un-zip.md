@@ -7,16 +7,22 @@ tags: [admin, administration, arch, archive, cmd, dump, howto, linux, shell, ubu
 
 Install zip:
 
-    sudo apt-get install zip
-    sudo apt-get install unzip
+```sh
+sudo apt-get install zip
+sudo apt-get install unzip
+```
 
 Unzip:
 
-    unzip myarchive.zip
+```sh
+unzip myarchive.zip
+```
 
 Zip folder:
 
-    zip -r myarchive.zip /path/to/my/folder
+```sh
+zip -r myarchive.zip /path/to/my/folder
+```
 
 http://help.ubuntu.com/community/FileCompression
 

@@ -6,9 +6,11 @@ tags: [windows, security, acl]
 
 Suppose we have following folders structure:
 
-	C:\Media
-	├───Music
-	└───Video
+```
+C:\Media
+├───Music
+└───Video
+```
 
 And we want:
 

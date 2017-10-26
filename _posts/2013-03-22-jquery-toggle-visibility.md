@@ -4,18 +4,20 @@ title: jQuery toggle visibility plugin
 tags: [jquery, visibility, toggle]
 ---
 
-	(function($){
-			$.fn.toggleVisibility = function(state) {
-				var bool = typeof state === 'boolean';
+```js
+(function($){
+	$.fn.toggleVisibility = function(state) {
+		var bool = typeof state === 'boolean';
 
-				return this.each(function() {
-					var isHidden = $(this).css('visibility') === 'hidden';
+		return this.each(function() {
+			var isHidden = $(this).css('visibility') === 'hidden';
 
-					if (bool ? state : isHidden) {
-						jQuery(this).css('visibility', 'visible');
-					} else {
-						jQuery(this).css('visibility', 'hidden');
-					}
-				});
-			};
-		})(jQuery);
+			if (bool ? state : isHidden) {
+				jQuery(this).css('visibility', 'visible');
+			} else {
+				jQuery(this).css('visibility', 'hidden');
+			}
+		});
+	};
+})(jQuery);
+```

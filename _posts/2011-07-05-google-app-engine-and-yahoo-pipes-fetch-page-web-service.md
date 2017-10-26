@@ -19,74 +19,78 @@ Here is sample:
 
 **app.yaml**
 
-    application: yahoo-pipes-fetch-page
-    version: 1
-    runtime: python
-    api_version: 1
+```yml
+application: yahoo-pipes-fetch-page
+version: 1
+runtime: python
+api_version: 1
 
-    handlers:
-    - url: /
-      static_files: index.html
-      upload: index.html
+handlers:
+- url: /
+    static_files: index.html
+    upload: index.html
 
-    - url: .*
-      script: main.py
+- url: .*
+    script: main.py
+```
 
 **main.py**
 
-    #!/usr/bin/env python
+```py
+#!/usr/bin/env python
 
-    from google.appengine.ext import webapp
-    from google.appengine.ext.webapp import util
+from google.appengine.ext import webapp
+from google.appengine.ext.webapp import util
 
-    import urllib2
-    import re
-    import simplejson
+import urllib2
+import re
+import simplejson
 
-    class MainHandler(webapp.RequestHandler):
-        def get(self):
-            self.response.out.write('get: Hello world!')
+class MainHandler(webapp.RequestHandler):
+    def get(self):
+        self.response.out.write('get: Hello world!')
 
-    class AppendHtmlHandler(webapp.RequestHandler):
-        def post(self):
-            data = self.request.get("data")
-            obj = simplejson.loads(data)
-            items = obj["items"]
-            for item in items:
-                req = urllib2.Request(item['link'], None, {'User-agent': 'Mozilla/5.0'})
-                html = urllib2.urlopen(req).read()
-                item['html'] = html[0]
+class AppendHtmlHandler(webapp.RequestHandler):
+    def post(self):
+        data = self.request.get("data")
+        obj = simplejson.loads(data)
+        items = obj["items"]
+        for item in items:
+            req = urllib2.Request(item['link'], None, {'User-agent': 'Mozilla/5.0'})
+            html = urllib2.urlopen(req).read()
+            item['html'] = html[0]
 
-            self.response.content_type = "application/json"
-            simplejson.dump(obj, self.response.out)
+        self.response.content_type = "application/json"
+        simplejson.dump(obj, self.response.out)
 
-    class AppendBodyHandler(webapp.RequestHandler):
-        def post(self):
-            data = self.request.get("data")
-            obj = simplejson.loads(data)
-            items = obj["items"]
-            for item in items:
-                req = urllib2.Request(item['link'], None, {'User-agent': 'Mozilla/5.0'})
-                html = urllib2.urlopen(req).read()
-                body = re.findall(r'<body[^>]*>(.*?)</body>', html, re.DOTALL|re.MULTILINE)
-                body = body[0]
-                body = re.compile(r'<script.*?</script>', re.DOTALL|re.MULTILINE).sub('', body)
-                body = re.compile(r'<noscript.*?</noscript>', re.DOTALL|re.MULTILINE).sub('', body)
-                body = re.compile(r'<style.*?</style>', re.DOTALL|re.MULTILINE).sub('', body)
-                item['body'] = body
+class AppendBodyHandler(webapp.RequestHandler):
+    def post(self):
+        data = self.request.get("data")
+        obj = simplejson.loads(data)
+        items = obj["items"]
+        for item in items:
+            req = urllib2.Request(item['link'], None, {'User-agent': 'Mozilla/5.0'})
+            html = urllib2.urlopen(req).read()
+            body = re.findall(r'<body[^>]*>(.*?)</body>', html, re.DOTALL|re.MULTILINE)
+            body = body[0]
+            body = re.compile(r'<script.*?</script>', re.DOTALL|re.MULTILINE).sub('', body)
+            body = re.compile(r'<noscript.*?</noscript>', re.DOTALL|re.MULTILINE).sub('', body)
+            body = re.compile(r'<style.*?</style>', re.DOTALL|re.MULTILINE).sub('', body)
+            item['body'] = body
 
-            self.response.content_type = "application/json"
-            simplejson.dump(obj, self.response.out)
+        self.response.content_type = "application/json"
+        simplejson.dump(obj, self.response.out)
 
-    def main():
-        application = webapp.WSGIApplication([('/', MainHandler),
-                                             ('/appendhtml', AppendHtmlHandler),
-                                             ('/appendbody', AppendBodyHandler)],
-                                             debug=True)
-        util.run_wsgi_app(application)
+def main():
+    application = webapp.WSGIApplication([('/', MainHandler),
+                                            ('/appendhtml', AppendHtmlHandler),
+                                            ('/appendbody', AppendBodyHandler)],
+                                            debug=True)
+    util.run_wsgi_app(application)
 
-    if __name__ == '__main__':
-        main()
+if __name__ == '__main__':
+    main()
+```
 
 Now you can make pipes like this:
 
@@ -94,8 +98,10 @@ Now you can make pipes like this:
 
 BUT. Here is epic fail:
 
-    Web service failure:
-    An Error Occurred
-    408 User-agent timeout (select)
+```
+Web service failure:
+An Error Occurred
+408 User-agent timeout (select)
+```
 
 So ...

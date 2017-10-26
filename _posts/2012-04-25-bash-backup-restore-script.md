@@ -10,90 +10,104 @@ Backup\Restore Commands
 
 **Backup files**
 
-    /bin/tar -cpzf /path-to-backups/www-`date +%Y-%m-%d`.tar.gz /home/example/www/
+```sh
+/bin/tar -cpzf /path-to-backups/www-`date +%Y-%m-%d`.tar.gz /home/example/www/
+```
 
 **Restore files**
 
-    /bin/tar -xpzf /path-to-backups/www-2012-04-25.tar.gz -C /
+```sh
+/bin/tar -xpzf /path-to-backups/www-2012-04-25.tar.gz -C /
+```
 
 **Backup mysql**
 
-    /usr/bin/mysqldump --databases -u MYSQL_LOGIN --password=MYSQL_PASSWORD MYSQL_DATABASE > /path-to-backups/db-`date +%Y-%m-%d`.sql
+```sh
+/usr/bin/mysqldump --databases -u MYSQL_LOGIN --password=MYSQL_PASSWORD MYSQL_DATABASE > /path-to-backups/db-`date +%Y-%m-%d`.sql
+```
 
 **Restore mysql**
 
-    /usr/bin/mysql -u MYSQL_LOGIN --password=MYSQL_PASSWORD MYSQL_DATABASE < /path-to-backups/db-2012-04-25.sql
+```sh
+/usr/bin/mysql -u MYSQL_LOGIN --password=MYSQL_PASSWORD MYSQL_DATABASE < /path-to-backups/db-2012-04-25.sql
+```
 
 http://help.ubuntu.com/community/BackupYourSystem/TAR
 
 Backup Script
 -------------
 
-    touch ~/make-backup.sh
-    chmod a+x ~/make-backup.sh
-    sudo ln -s /home/example/make-backup.sh /etc/cron.daily/make-backup.sh
-    cat ~/make-backup.sh
-    #!/bin/sh
+```sh
+touch ~/make-backup.sh
+chmod a+x ~/make-backup.sh
+sudo ln -s /home/example/make-backup.sh /etc/cron.daily/make-backup.sh
+cat ~/make-backup.sh
+#!/bin/sh
 
-    # Backup www directory
-    /bin/tar -cpzf /home/example/backups/www-`date +%Y-%m-%d`.tar.gz /home/example/www/
+# Backup www directory
+/bin/tar -cpzf /home/example/backups/www-`date +%Y-%m-%d`.tar.gz /home/example/www/
 
-    # Backup database
-    /usr/bin/mysqldump --databases -u example --password=example example > /home/example/backups/db-`date +%Y-%m-%d`.sql
+# Backup database
+/usr/bin/mysqldump --databases -u example --password=example example > /home/example/backups/db-`date +%Y-%m-%d`.sql
 
-    # Delete old backups
-    /usr/bin/find /home/example/backups/ -mtime +30 -delete
+# Delete old backups
+/usr/bin/find /home/example/backups/ -mtime +30 -delete
+```
 
 Restore Script
 --------------
 
-    touch ~/restore-backup.sh
-    chmod a+x ~/restore-backup.sh
-    cat ~/restore-backup.sh
-    #!/bin/sh
+```sh
+touch ~/restore-backup.sh
+chmod a+x ~/restore-backup.sh
+cat ~/restore-backup.sh
+#!/bin/sh
 
-    # Get last backup file names into variables
-    LAST_WWW_BACKUP=$(ls /home/example/backups/www-*.tar.gz | tail -n 1)
-    LAST_SQL_BACKUP=$(ls /home/example/backups/db-*.sql | tail -n 1)
+# Get last backup file names into variables
+LAST_WWW_BACKUP=$(ls /home/example/backups/www-*.tar.gz | tail -n 1)
+LAST_SQL_BACKUP=$(ls /home/example/backups/db-*.sql | tail -n 1)
 
-    # Restore files
-    /bin/tar -xpzf $LAST_WWW_BACKUP -C /
+# Restore files
+/bin/tar -xpzf $LAST_WWW_BACKUP -C /
 
-    # Restore database
-    /usr/bin/mysql -u example --password=example example < $LAST_SQL_BACKUP
+# Restore database
+/usr/bin/mysql -u example --password=example example < $LAST_SQL_BACKUP
 
-    # Clear drupal caches
-    drush -r /home/example/www/ cc all
+# Clear drupal caches
+drush -r /home/example/www/ cc all
+```
 
 Interactive Restore Script
 --------------------------
 
 ![screenshot](/images/wp/132.png)
 
-    touch ~/date-backup-restore.sh
-    chmod a+x ~/date-backup-restore.sh
-    cat ~/date-backup-restore.sh
+```sh
+touch ~/date-backup-restore.sh
+chmod a+x ~/date-backup-restore.sh
+cat ~/date-backup-restore.sh
 
-    #!/bin/sh
+#!/bin/sh
 
-    # Disaplay choose dialog with available backups
-    CHOSEN_DATE=$(whiptail --title "RESTORE BACKUP" --menu "Chose Backup Date" 20 78 10 `for x in /home/example/backups/*.tar.gz; do echo "$x backup" | sed 's/.*www-\(.*\).tar.gz/\1/'; done` 3>&1 1>&2 2>&3)
+# Disaplay choose dialog with available backups
+CHOSEN_DATE=$(whiptail --title "RESTORE BACKUP" --menu "Chose Backup Date" 20 78 10 `for x in /home/example/backups/*.tar.gz; do echo "$x backup" | sed 's/.*www-\(.*\).tar.gz/\1/'; done` 3>&1 1>&2 2>&3)
 
-    exitstatus=$?
-    if [ $exitstatus = 0 ]; then
-            # Get files and database backup file names
-            WWW_BACKUP=$(ls /home/example/backups/www-"$CHOSEN_DATE".tar.gz | tail -n 1)
-            SQL_BACKUP=$(ls /home/example/backups/unon-$CHOSEN_DATE.sql | tail -n 1)
+exitstatus=$?
+if [ $exitstatus = 0 ]; then
+        # Get files and database backup file names
+        WWW_BACKUP=$(ls /home/example/backups/www-"$CHOSEN_DATE".tar.gz | tail -n 1)
+        SQL_BACKUP=$(ls /home/example/backups/unon-$CHOSEN_DATE.sql | tail -n 1)
 
-            # Restore files
-            /bin/tar -xpzf $WWW_BACKUP -C /
+        # Restore files
+        /bin/tar -xpzf $WWW_BACKUP -C /
 
-            # Restore database
-            /usr/bin/mysql -u example --password=example example < $SQL_BACKUP
+        # Restore database
+        /usr/bin/mysql -u example --password=example example < $SQL_BACKUP
 
-            # Clear drupal caches
-            drush -r /home/example/www/ cc all
-    fi
+        # Clear drupal caches
+        drush -r /home/example/www/ cc all
+fi
+```
 
 TODO: refactor scripts to use path variables
 

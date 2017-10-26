@@ -15,10 +15,12 @@ tags: [code, highlight, javascript]
 
 Что касается любых других систем, то тут тоже все просто до безобразия, все что необходимо:
 
-    <script type="text/javascript" src="highlight.pack.js"></script>
-    <script type="text/javascript">
-        hljs.initHighlightingOnLoad();
-    </script>
+```html
+<script type="text/javascript" src="highlight.pack.js"></script>
+<script type="text/javascript">
+    hljs.initHighlightingOnLoad();
+</script>
+```
 
 Вот как это выглядит на деле:
 

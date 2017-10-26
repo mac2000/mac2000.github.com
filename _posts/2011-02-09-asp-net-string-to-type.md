@@ -9,62 +9,66 @@ I have string with class name, and want convert it to Type, here how it can be d
 
 *Do not forget* - class name must be full with namespace, for example `RabotaUA.Entity.Model.SaleCompanyInfo`
 
-    public class Tmp
+```csharp
+public class Tmp
+{
+    public static Type StringToType(string typeName)
     {
-        public static Type StringToType(string typeName)
+        foreach (System.Reflection.Assembly assembly in AppDomain.CurrentDomain.GetAssemblies() /*AssemblyLocator.GetAssemblies()*/)
         {
-            foreach (System.Reflection.Assembly assembly in AppDomain.CurrentDomain.GetAssemblies() /*AssemblyLocator.GetAssemblies()*/)
-            {
-                Type foundType = assembly.GetType(typeName);
+            Type foundType = assembly.GetType(typeName);
 
-                if (foundType != null)
-                    return foundType;
-            }
-            return null;
+            if (foundType != null)
+                return foundType;
         }
+        return null;
     }
+}
+```
 
 In some cases this class will be also very useful
 
-    public static class AssemblyLocator
+```csharp
+public static class AssemblyLocator
+{
+    private static readonly ReadOnlyCollection<Assembly> AllAssemblies;
+    private static readonly ReadOnlyCollection<Assembly> BinAssemblies;
+
+    static AssemblyLocator()
     {
-        private static readonly ReadOnlyCollection<Assembly> AllAssemblies;
-        private static readonly ReadOnlyCollection<Assembly> BinAssemblies;
+        AllAssemblies = new ReadOnlyCollection<Assembly>(
+            BuildManager.GetReferencedAssemblies().Cast<Assembly>().ToList());
 
-        static AssemblyLocator()
+        IList<Assembly> binAssemblies = new List<Assembly>();
+
+        string binFolder = HttpRuntime.AppDomainAppPath + "bin\\";
+        IList<string> dllFiles = Directory.GetFiles(binFolder, "*.dll", SearchOption.TopDirectoryOnly).ToList();
+
+        foreach (string dllFile in dllFiles)
         {
-            AllAssemblies = new ReadOnlyCollection<Assembly>(
-                BuildManager.GetReferencedAssemblies().Cast<Assembly>().ToList());
+            AssemblyName assemblyName = AssemblyName.GetAssemblyName(dllFile);
 
-            IList<Assembly> binAssemblies = new List<Assembly>();
+            Assembly locatedAssembly = AllAssemblies.FirstOrDefault(a =>
+                AssemblyName.ReferenceMatchesDefinition(
+                    a.GetName(), assemblyName));
 
-            string binFolder = HttpRuntime.AppDomainAppPath + "bin\\";
-            IList<string> dllFiles = Directory.GetFiles(binFolder, "*.dll", SearchOption.TopDirectoryOnly).ToList();
-
-            foreach (string dllFile in dllFiles)
+            if (locatedAssembly != null)
             {
-                AssemblyName assemblyName = AssemblyName.GetAssemblyName(dllFile);
-
-                Assembly locatedAssembly = AllAssemblies.FirstOrDefault(a =>
-                    AssemblyName.ReferenceMatchesDefinition(
-                        a.GetName(), assemblyName));
-
-                if (locatedAssembly != null)
-                {
-                    binAssemblies.Add(locatedAssembly);
-                }
+                binAssemblies.Add(locatedAssembly);
             }
-
-            BinAssemblies = new ReadOnlyCollection<Assembly>(binAssemblies);
         }
 
-        public static ReadOnlyCollection<Assembly> GetAssemblies()
-        {
-            return AllAssemblies;
-        }
-
-        public static ReadOnlyCollection<Assembly> GetBinFolderAssemblies()
-        {
-            return BinAssemblies;
-        }
+        BinAssemblies = new ReadOnlyCollection<Assembly>(binAssemblies);
     }
+
+    public static ReadOnlyCollection<Assembly> GetAssemblies()
+    {
+        return AllAssemblies;
+    }
+
+    public static ReadOnlyCollection<Assembly> GetBinFolderAssemblies()
+    {
+        return BinAssemblies;
+    }
+}
+```

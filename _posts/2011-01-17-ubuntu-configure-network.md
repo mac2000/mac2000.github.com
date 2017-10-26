@@ -9,46 +9,62 @@ http://www.ubuntugeek.com/ubuntu-networking-configuration-using-command-line.htm
 
 Configs are here:
 
-    /etc/network/interfaces
+```
+/etc/network/interfaces
+```
 
 DHCP
 
-    auto eth0
-    iface eth0 inet dhcp
+```
+auto eth0
+iface eth0 inet dhcp
+```
 
 Static
 
-    auto eth0
-    iface eth0 inet static
-    address 192.168.7.101
-    gateway 192.168.7.1
-    netmask 255.255.255.0
-    network 192.168.7.0
-    broadcast 192.168.7.255
+```
+auto eth0
+iface eth0 inet static
+address 192.168.7.101
+gateway 192.168.7.1
+netmask 255.255.255.0
+network 192.168.7.0
+broadcast 192.168.7.255
+```
 
 Static second IP on the same interface
 
-    auto eth0:1
-    iface eth0:1 inet static
-    address 192.168.7.102
-    gateway 192.168.7.1
-    netmask 255.255.255.0
-    network 192.168.7.0
-    broadcast 192.168.7.255
+```
+auto eth0:1
+iface eth0:1 inet static
+address 192.168.7.102
+gateway 192.168.7.1
+netmask 255.255.255.0
+network 192.168.7.0
+broadcast 192.168.7.255
+```
 
 Apply settings
 
-    sudo /etc/init.d/networking restart
+```
+sudo /etc/init.d/networking restart
+```
 
 Hostname
 
-    sudo /bin/hostname newname
+```
+sudo /bin/hostname newname
+```
 
 DNS
 
-    sudo nano /etc/resolv.conf
+```
+sudo nano /etc/resolv.conf
+```
 
 in config:
 
-    search example.com
-    nameserver 192.168.7.1
+```
+search example.com
+nameserver 192.168.7.1
+```

@@ -15,17 +15,21 @@ http://windows.php.net/download/
 
 **start.cmd**
 
-    @ECHO OFF
-    start C:\nginx\nginx.exe
-    start C:\nginx\RunHiddenConsole.exe C:\PHP\php-cgi.exe -b 127.0.0.1:9000 -c C:\PHP\php.ini
-    EXIT
+```sh
+@ECHO OFF
+start C:\nginx\nginx.exe
+start C:\nginx\RunHiddenConsole.exe C:\PHP\php-cgi.exe -b 127.0.0.1:9000 -c C:\PHP\php.ini
+EXIT
+```
 
 **stop.cmd**
 
-    @ECHO OFF
-    taskkill /f /IM nginx.exe
-    taskkill /f /IM php-cgi.exe
-    EXIT
+```sh
+@ECHO OFF
+taskkill /f /IM nginx.exe
+taskkill /f /IM php-cgi.exe
+EXIT
+```
 
 http://eksith.wordpress.com/2008/12/08/nginx-php-on-windows/
 
@@ -33,44 +37,46 @@ http://wiki.nginx.org/PHPFastCGIOnWindows
 
 **nginx.conf**
 
-    worker_processes  1;
-    events {
-        worker_connections  1024;
-    }
+```
+worker_processes  1;
+events {
+    worker_connections  1024;
+}
 
-    http {
-        include       mime.types;
-        default_type  application/octet-stream;
-        sendfile        on;
-        keepalive_timeout  65;
-        gzip  on;
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    sendfile        on;
+    keepalive_timeout  65;
+    gzip  on;
 
-        server {
-            listen       85;
-            server_name  localhost;
-            charset utf-8;
-            root   html;
-            index  index.php index.html index.htm;
+    server {
+        listen       85;
+        server_name  localhost;
+        charset utf-8;
+        root   html;
+        index  index.php index.html index.htm;
 
-            location / {
-                try_files $uri $uri/ /index.php?q=$uri&$args;
-            }
-
-            # wordpress example
-            #location /blog {
-            #   try_files $uri $uri/ /blog/index.php?q=$uri&$args;
-            #}
-
-            location ~ \.php$ {
-                root           html;
-                fastcgi_pass   127.0.0.1:9000;
-                fastcgi_index  index.php;
-                fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
-                include        fastcgi_params;
-            }
-
+        location / {
+            try_files $uri $uri/ /index.php?q=$uri&$args;
         }
+
+        # wordpress example
+        #location /blog {
+        #   try_files $uri $uri/ /blog/index.php?q=$uri&$args;
+        #}
+
+        location ~ \.php$ {
+            root           html;
+            fastcgi_pass   127.0.0.1:9000;
+            fastcgi_index  index.php;
+            fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            include        fastcgi_params;
+        }
+
     }
+}
+```
 
 Отличная статья на примере Wordpress'а показывающая как бороться с ЧПУ
 

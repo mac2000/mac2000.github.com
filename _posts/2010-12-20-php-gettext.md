@@ -11,30 +11,38 @@ tags: [gettext, i18n, l10n, php]
 
 Например если где либо на странице было вот такое:
 
-    <h1>Header for page<?php echo $pagetitle?></h1>
+```php
+<h1>Header for page<?php echo $pagetitle?></h1>
+```
 
 Необходимо переделать вот так:
 
-    <h1><?php echo _('Header for page').' '.$pagetitle?></h1>
+```php
+<h1><?php echo _('Header for page').' '.$pagetitle?></h1>
+```
 
 Эта функция и будет заниматься переводом всех строк в будущем.
 
 Теперь необходимо в корне проекта создать следующие папки:
 
-    /locale/ru_RU/LC_MESSAGES
+```
+/locale/ru_RU/LC_MESSAGES
+```
 
 Теперь можно запускать [Poedit](http://www.poedit.net/), в котором необходимо создать новый каталог, он создаст необходимые PO файлы, которые в нем же можно и перевести.
 
 Пример кода:
 
-    <?php
-    define('LOCALES_FOLDER_PATH', $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.'gettext'.DIRECTORY_SEPARATOR.'locale');
-    define('PO_FILE_NAME', 'default');
-    $locale = 'ru_RU';
-    putenv('LANG='.$locale);
-    setlocale (LC_ALL, $locale);
-    bindtextdomain (PO_FILE_NAME, LOCALES_FOLDER_PATH);
-    textdomain (PO_FILE_NAME);
-    bind_textdomain_codeset(PO_FILE_NAME, 'UTF-8');
+```php
+<?php
+define('LOCALES_FOLDER_PATH', $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.'gettext'.DIRECTORY_SEPARATOR.'locale');
+define('PO_FILE_NAME', 'default');
+$locale = 'ru_RU';
+putenv('LANG='.$locale);
+setlocale (LC_ALL, $locale);
+bindtextdomain (PO_FILE_NAME, LOCALES_FOLDER_PATH);
+textdomain (PO_FILE_NAME);
+bind_textdomain_codeset(PO_FILE_NAME, 'UTF-8');
 
-    echo _("Hello world!");
+echo _("Hello world!");
+```

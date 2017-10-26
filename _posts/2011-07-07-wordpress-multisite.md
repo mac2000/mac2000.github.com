@@ -13,70 +13,86 @@ tags: [farm, multisite, wordpress, wp, wpmu]
 
 Если домен уже где то припаркова просто добавляем запись:
 
-    * A 192.168.5.11
+```
+* A 192.168.5.11
+```
 
 Если домен у нас - необходимо поставить и настроить DNS.
 
 **/etc/bind/named.conf.local**:
 
-    zone "multi.com" {
-            type master;
-            file "/etc/bind/db.multi.com";
-    };
+```
+zone "multi.com" {
+        type master;
+        file "/etc/bind/db.multi.com";
+};
+```
 
 **/etc/bind/db.multi.com**:
 
-    $TTL    604800
-    @       IN      SOA     multi.com. root.multi.com. (
-                                  2         ; Serial
-                             604800         ; Refresh
-                              86400         ; Retry
-                            2419200         ; Expire
-                             604800 )       ; Negative Cache TTL
-    ;
-    @       IN      NS      multi.com.
-    @       IN      A       192.168.5.11
-    @       IN      AAAA    ::1
-    *.multi.com. IN A 192.168.5.11
+```
+$TTL    604800
+@       IN      SOA     multi.com. root.multi.com. (
+                                2         ; Serial
+                            604800         ; Refresh
+                            86400         ; Retry
+                        2419200         ; Expire
+                            604800 )       ; Negative Cache TTL
+;
+@       IN      NS      multi.com.
+@       IN      A       192.168.5.11
+@       IN      AAAA    ::1
+*.multi.com. IN A 192.168.5.11
+```
 
 Теперь настройка apache. Во первых надо убедиться что включен `mod_rewrite`
 
-    sudo a2enmod rewrite
+```
+sudo a2enmod rewrite
+```
 
 Добавляем и включаем сайты
 
 **/etc/apache2/sites-available/default**:
 
-    <VirtualHost *:80>
-            ServerName multi.com
-            ServerAlias *.multi.com
-            DocumentRoot /var/www
-            <Directory /var/www/>
-                    Options All
-                    AllowOverride All
-                    Order allow,deny
-                    allow from all
-            </Directory>
-    </VirtualHost>
+````
+<VirtualHost *:80>
+        ServerName multi.com
+        ServerAlias *.multi.com
+        DocumentRoot /var/www
+        <Directory /var/www/>
+                Options All
+                AllowOverride All
+                Order allow,deny
+                allow from all
+        </Directory>
+</VirtualHost>
+```
 
 **/etc/apache2/sites-available/test1.ru**:
 
-    <VirtualHost *:80>
-            ServerName test1.ru
-            ServerAlias www.test1.ru
-    </VirtualHost>
+```
+<VirtualHost *:80>
+        ServerName test1.ru
+        ServerAlias www.test1.ru
+</VirtualHost>
+```
 
 **/etc/apache2/sites-available/test2.ru**:
 
-    <VirtualHost *:80>
-            ServerName test2.ru
-            ServerAlias www.test2.ru
-    </VirtualHost>
+```
+<VirtualHost *:80>
+        ServerName test2.ru
+        ServerAlias www.test2.ru
+</VirtualHost>
+```
 
 Включаем сайты:
 
-    a2ensite test1.ru
-    a2ensite test2.ru
+```
+a2ensite test1.ru
+a2ensite test2.ru
+```
 
 Теперь файлы в /var/www должны быть доступны с доменов `multi.com`, `*.multi.com`, `test1.ru`, `test2.ru.`
 
@@ -86,7 +102,9 @@ tags: [farm, multisite, wordpress, wp, wpmu]
 
 После чего, в файл **wp-config.php**, в самое начало, добавляем:
 
-    define('WP_ALLOW_MULTISITE', true);
+```php
+define('WP_ALLOW_MULTISITE', true);
+```
 
 Теперь в админке в разделе **Инструменты** должен появиться новый пункт **Установка сети**.
 
@@ -128,10 +146,12 @@ http://wordpress.org/extend/plugins/wordpress-mu-domain-mapping/
 
 В самый конец файла `wp-config.php` перед последним `require_once` добавляем, чтобы получилось так:
 
-    define( 'SUNRISE', 'on' );
+```php
+define( 'SUNRISE', 'on' );
 
-    /** Инициализирует переменные WordPress и подключает файлы. */
-    require_once(ABSPATH . 'wp-settings.php');
+/** Инициализирует переменные WordPress и подключает файлы. */
+require_once(ABSPATH . 'wp-settings.php');
+```
 
 После чего идем в плагины и активируем для сети плагин. (Под "активацией для сети" подразумевается активация модуля на странице `/wp-admin/network/plugins.php`. Плагины активированные тут будут автоматически включены для всех сайтов сети, при этом администратор сайта может устанавливать и удалять свои модули но не может удалить уже установленный модуль.)
 

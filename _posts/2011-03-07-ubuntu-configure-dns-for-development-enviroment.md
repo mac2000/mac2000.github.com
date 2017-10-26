@@ -11,68 +11,90 @@ My idea is to configure DNS to resolve any subdomains so i will never ever need 
 
 Firs of all dns must be installed, i used
 
-    sudo tasksel
+```sh
+sudo tasksel
+```
 
 then choose DNS server and press OK.
 
 It may be installed via:
 
-    sudo apt-get install bind9
+```sh
+sudo apt-get install bind9
+```
 
 So now we have own local DNS server, and need to add domain
 
-    sudo nano /etc/bind/named.conf.local
+```sh
+sudo nano /etc/bind/named.conf.local
+```
 
 And add to it something like this:
 
-    zone "x51rl.example.org.ua" {
-            type master;
-            file "/etc/bind/db.x51rl.example.org.ua";
-    };
+```
+zone "x51rl.example.org.ua" {
+        type master;
+        file "/etc/bind/db.x51rl.example.org.ua";
+};
+```
 
 Now we need file to describe this zone
 
-    sudo cp /etc/bind/db.local /etc/bind/db.x51rl.example.org.ua
+```sh
+sudo cp /etc/bind/db.local /etc/bind/db.x51rl.example.org.ua
+```
 
 Now edit this file, replace localhost to x51rl.example.org.ua, and add
 wildcard zone
 
-    mac@x51rl:/$ cat /etc/bind/db.x51rl.example.org.ua
-    ;
-    ; BIND data file for local loopback interface
-    ;
-    $TTL    604800
-    @   IN  SOA x51rl.example.org.ua. root.x51rl.example.org.ua. (
-                      2     ; Serial
-                 604800     ; Refresh
-                  86400     ; Retry
-                2419200     ; Expire
-                 604800 )   ; Negative Cache TTL
-    ;
-    @   IN  NS  x51rl.example.org.ua.
-    @   IN  A   127.0.0.1
-    @   IN  AAAA    ::1
-    *.x51rl.example.org.ua. IN A 127.0.0.1
+```
+mac@x51rl:/$ cat /etc/bind/db.x51rl.example.org.ua
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@   IN  SOA x51rl.example.org.ua. root.x51rl.example.org.ua. (
+                    2     ; Serial
+                604800     ; Refresh
+                86400     ; Retry
+            2419200     ; Expire
+                604800 )   ; Negative Cache TTL
+;
+@   IN  NS  x51rl.example.org.ua.
+@   IN  A   127.0.0.1
+@   IN  AAAA    ::1
+*.x51rl.example.org.ua. IN A 127.0.0.1
+```
 
 Now when all done, u may check that all is working with:
 
-    named-checkzone x51rl.example.org.ua /etc/bind/db.x51rl.example.org.ua
+```sh
+named-checkzone x51rl.example.org.ua /etc/bind/db.x51rl.example.org.ua
+```
 
 And if all ok, restart bind:
 
-    sudo /etc/init.d/bind9 restart
+```sh
+sudo /etc/init.d/bind9 restart
+```
 
 Now this command must work:
 
-    nslookup aaa.bbb.x51rl.mam.org.ua 127.0.0.1
+```sh
+nslookup aaa.bbb.x51rl.mam.org.ua 127.0.0.1
+```
 
 If u using dhcp in your network, it will owervrite your resolv.conf, so edit:
 
-    sudo nano /etc/dhcp3/dhclient.conf
+```sh
+sudo nano /etc/dhcp3/dhclient.conf
+```
 
 and uncomment line
 
-    prepend domain-name-servers 127.0.0.1;
+```
+prepend domain-name-servers 127.0.0.1;
+```
 
 now after restarting networking u will be able to ping any subdomain.
 

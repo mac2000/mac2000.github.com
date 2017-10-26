@@ -7,19 +7,27 @@ tags: [admin, develop, pear, php]
 
 **List installed packages**
 
-    C:\xampp\php\pear.bat list
+```sh
+C:\xampp\php\pear.bat list
+```
 
 **Install package with all dependencies**
 
-    C:\xampp\php\pear.bat install PACKAGE -a
+```sh
+C:\xampp\php\pear.bat install PACKAGE -a
+```
 
 **Help**
 
-    C:\xampp\php\pear.bat help COMMAND
+```sh
+C:\xampp\php\pear.bat help COMMAND
+```
 
 **Upgrade**
 
-    C:\xampp\php\pear.bat upgrade-all
+```sh
+C:\xampp\php\pear.bat upgrade-all
+```
 
 **Channels**
 
@@ -33,8 +41,12 @@ Add `PHP_PEAR_SYSCONF_DIR` sys variable that point to php’s dir
 
 To install beta use something like this:
 
-    pear install channel://pear.php.net/PEAR_Frontend_Web-0.7.5
+```sh
+pear install channel://pear.php.net/PEAR_Frontend_Web-0.7.5
+```
 
 **Pear webinstaller**
 
-    pear install pear/PEAR#webinstaller
+```sh
+pear install pear/PEAR#webinstaller
+```

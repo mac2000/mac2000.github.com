@@ -18,49 +18,51 @@ The only thing I do not like about it is default colors:
 
 So here is a way to customize them:
 
-    import sys
-    from pygments import highlight
-    from pygments.lexers import JsonLexer
-    from pygments.formatters import TerminalFormatter
-    from pygments.token import Keyword, Name, Comment, String, Error, Number, Operator, Generic, Token, Whitespace
+```python
+import sys
+from pygments import highlight
+from pygments.lexers import JsonLexer
+from pygments.formatters import TerminalFormatter
+from pygments.token import Keyword, Name, Comment, String, Error, Number, Operator, Generic, Token, Whitespace
 
 
-    # https://github.com/nex3/pygments/blob/master/pygments/formatters/terminal.py
-    cs = {
-        Token:              ('darkgray', 'darkgray'),
+# https://github.com/nex3/pygments/blob/master/pygments/formatters/terminal.py
+cs = {
+    Token:              ('darkgray', 'darkgray'),
 
-        Whitespace:         ('', ''),
-        Comment:            ('', ''),
-        Comment.Preproc:    ('', ''),
-        Keyword:            ('white', 'white'),
-        Keyword.Type:       ('', ''),
-        Operator.Word:      ('', ''),
-        Name.Builtin:       ('', ''),
-        Name.Function:      ('', ''),
-        Name.Namespace:     ('', ''),
-        Name.Class:         ('', ''),
-        Name.Exception:     ('', ''),
-        Name.Decorator:     ('', ''),
-        Name.Variable:      ('', ''),
-        Name.Constant:      ('', ''),
-        Name.Attribute:     ('', ''),
-        Name.Tag:           ('lightgray', 'lightgray'),
-        String:             ('yellow', 'yellow'),
-        Number:             ('fuchsia', 'fuchsia'),
+    Whitespace:         ('', ''),
+    Comment:            ('', ''),
+    Comment.Preproc:    ('', ''),
+    Keyword:            ('white', 'white'),
+    Keyword.Type:       ('', ''),
+    Operator.Word:      ('', ''),
+    Name.Builtin:       ('', ''),
+    Name.Function:      ('', ''),
+    Name.Namespace:     ('', ''),
+    Name.Class:         ('', ''),
+    Name.Exception:     ('', ''),
+    Name.Decorator:     ('', ''),
+    Name.Variable:      ('', ''),
+    Name.Constant:      ('', ''),
+    Name.Attribute:     ('', ''),
+    Name.Tag:           ('lightgray', 'lightgray'),
+    String:             ('yellow', 'yellow'),
+    Number:             ('fuchsia', 'fuchsia'),
 
-        Generic.Deleted:    ('', ''),
-        Generic.Inserted:   ('', ''),
-        Generic.Heading:    ('', ''),
-        Generic.Subheading: ('', ''),
-        Generic.Error:      ('', ''),
+    Generic.Deleted:    ('', ''),
+    Generic.Inserted:   ('', ''),
+    Generic.Heading:    ('', ''),
+    Generic.Subheading: ('', ''),
+    Generic.Error:      ('', ''),
 
-        Error:              ('', ''),
-    }
+    Error:              ('', ''),
+}
 
-    #data = '{"foo": "bar", "ing": 2, "bool": false}'
-    data = ''.join(sys.stdin.readlines())
+#data = '{"foo": "bar", "ing": 2, "bool": false}'
+data = ''.join(sys.stdin.readlines())
 
-    print highlight(data, JsonLexer(), TerminalFormatter(colorscheme=cs))
+print highlight(data, JsonLexer(), TerminalFormatter(colorscheme=cs))
+```
 
 
 and here is how it looks like:
@@ -71,4 +73,6 @@ now values are bright, keys are grayed and tokens are almost not visible, I bed 
 
 In my case usage was something like this:
 
-    ps.cmd -method get -uri /_cat/indices |
+```sh
+ps.cmd -method get -uri /_cat/indices |
+```

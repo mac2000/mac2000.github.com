@@ -19,35 +19,37 @@ tags: [editarea, javascript, wysiwyg]
 
 Пример простенько страницы:
 
-    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-    <html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <script language="Javascript" type="text/javascript" src="editarea_0_8_2/edit_area/edit_area_full.js"></script>
-    <script language="Javascript" type="text/javascript">
-            editAreaLoader.init({
-                id:'example_1',
-                change_callback:'onEditAreaChanged',
-                language:'ru',
-                start_highlight:true,
-                allow_resize:'y',
-                allow_toggle:true,
-                word_wrap:true,
-                syntax:'html',
-                toolbar:'undo, redo, |, select_font, |, syntax_selection, |, change_smooth_selection, highlight, reset_highlight',
-                syntax_selection_allow:'css,html,js,php,xml,sql'
-            });
+```php
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script language="Javascript" type="text/javascript" src="editarea_0_8_2/edit_area/edit_area_full.js"></script>
+<script language="Javascript" type="text/javascript">
+        editAreaLoader.init({
+            id:'example_1',
+            change_callback:'onEditAreaChanged',
+            language:'ru',
+            start_highlight:true,
+            allow_resize:'y',
+            allow_toggle:true,
+            word_wrap:true,
+            syntax:'html',
+            toolbar:'undo, redo, |, select_font, |, syntax_selection, |, change_smooth_selection, highlight, reset_highlight',
+            syntax_selection_allow:'css,html,js,php,xml,sql'
+        });
 
-            function onEditAreaChanged(id) {
-                document.getElementById(id).value = editAreaLoader.getValue(id);
-            }
-        </script>
-    </head>
-    <body>
-    <textarea id="example_1" style="height: 150px; width: 100%;" name="test_1">
-    <?php
-        echo 'Hello world!';
-    ?>
-    </textarea>
-    </body>
-    </html>
+        function onEditAreaChanged(id) {
+            document.getElementById(id).value = editAreaLoader.getValue(id);
+        }
+    </script>
+</head>
+<body>
+<textarea id="example_1" style="height: 150px; width: 100%;" name="test_1">
+<?php
+    echo 'Hello world!';
+?>
+</textarea>
+</body>
+</html>
+```

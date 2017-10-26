@@ -9,5 +9,7 @@ tags: [drupal, php, locale, drupal_is_front_page]
 
 Проблема лечиться в файле: `/modules/locale/locale.module`
 
-    //$path = drupal_is_front_page() ? '<front>' : $_GET['q'];
-    $path = drupal_is_front_page() && 'node' != arg(0) ? '<front>' : $_GET['q'];
+```php
+//$path = drupal_is_front_page() ? '<front>' : $_GET['q'];
+$path = drupal_is_front_page() && 'node' != arg(0) ? '<front>' : $_GET['q'];
+```

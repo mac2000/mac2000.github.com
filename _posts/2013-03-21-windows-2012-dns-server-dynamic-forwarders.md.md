@@ -19,34 +19,46 @@ On network disconnect - we neeed to switch our network adapter back to accept DN
 Retrieve obtained DNS servers
 -----------------------------
 
-	(Get-DnsClientServerAddress -InterfaceAlias "wifi0" -AddressFamily IPv4).ServerAddresses
+```powershell
+(Get-DnsClientServerAddress -InterfaceAlias "wifi0" -AddressFamily IPv4).ServerAddresses
+```
 
 
 Set DNS Server forwarders
 -------------------------
 
-	Set-DnsServerForwarder -IPAddress (Get-DnsClientServerAddress -InterfaceAlias "wifi0" -AddressFamily IPv4).ServerAddresses -PassThru
+```powershell
+Set-DnsServerForwarder -IPAddress (Get-DnsClientServerAddress -InterfaceAlias "wifi0" -AddressFamily IPv4).ServerAddresses -PassThru
+```
 
 Set network adapter to use static DNS
 -------------------------------------
 
-	Set-DnsClientServerAddress -InterfaceAlias "wifi0" -ServerAddresses ("127.0.0.1","8.8.8.8")
+```powershell
+Set-DnsClientServerAddress -InterfaceAlias "wifi0" -ServerAddresses ("127.0.0.1","8.8.8.8")
+```
 
 Set network adapter to use dynamic DNS
 --------------------------------------
 
-	Set-DnsClientServerAddress –InterfaceAlias "wifi0" -ResetServerAddresses
+```powershell
+Set-DnsClientServerAddress –InterfaceAlias "wifi0" -ResetServerAddresses
+```
 
 Events
 ------
 
 Look in **Event Viewer** for events under
 
-	Event Viewer \ Applications and Services Logs \ Microsoft \ Windows \ NetworkProfile \ Operational
+```
+Event Viewer \ Applications and Services Logs \ Microsoft \ Windows \ NetworkProfile \ Operational
+```
 
 There is two kind of events with IDs 10000 for connect and 10001 for disconnect so we can use them for scheduled tasks.
 
-	Event Viewer \ Applications and Services Logs \ Microsoft \ Windows \ WLAN-AutoConfig \ Operational
+```
+Event Viewer \ Applications and Services Logs \ Microsoft \ Windows \ WLAN-AutoConfig \ Operational
+```
 
 There is also two events, 11010 - for connection and 11004 - for disconnection.
 
@@ -59,24 +71,28 @@ On network disconnection - set network adapter back to use DHCP.
 connect.ps1
 -----------
 
-	$NetworkAdapterName = "wifi0"
+```powershell
+$NetworkAdapterName = "wifi0"
 
-	# Get network adapter DNS servers and set them as local DNS Server forwarders
-	Set-DnsServerForwarder -IPAddress (Get-DnsClientServerAddress -InterfaceAlias $NetworkAdapterName -AddressFamily IPv4).ServerAddresses
+# Get network adapter DNS servers and set them as local DNS Server forwarders
+Set-DnsServerForwarder -IPAddress (Get-DnsClientServerAddress -InterfaceAlias $NetworkAdapterName -AddressFamily IPv4).ServerAddresses
 
-	# Set network adapter DNS server to use local DNS Server
-	Set-DnsClientServerAddress -InterfaceAlias $NetworkAdapterName -ServerAddresses "127.0.0.1"
+# Set network adapter DNS server to use local DNS Server
+Set-DnsClientServerAddress -InterfaceAlias $NetworkAdapterName -ServerAddresses "127.0.0.1"
+```
 
 disconnect.ps1
 --------------
 
-	$NetworkAdapterName = "wifi0"
+```powershell
+$NetworkAdapterName = "wifi0"
 
-	# Set Google DNS as forwarder
-	Set-DnsServerForwarder -IPAddress "8.8.8.8"
+# Set Google DNS as forwarder
+Set-DnsServerForwarder -IPAddress "8.8.8.8"
 
-	# Set network adapter to use DHCP to retrieve DNS settings
-	Set-DnsClientServerAddress –InterfaceAlias $NetworkAdapterName -ResetServerAddresses
+# Set network adapter to use DHCP to retrieve DNS settings
+Set-DnsClientServerAddress –InterfaceAlias $NetworkAdapterName -ResetServerAddresses
+```
 
 Links
 -----

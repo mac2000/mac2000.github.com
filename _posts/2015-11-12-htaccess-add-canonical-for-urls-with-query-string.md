@@ -12,12 +12,14 @@ Seems that google undestands special `Link` header for canonicals - https://supp
 
 Here is what I end up with:
 
-	# If non empty query string add Canonical header
-	RewriteCond %{QUERY_STRING} ^.+$ [NC]
-	SetEnvIf Host (.*) HOSTNAME=$1
-	SetEnvIf Request_URI (.*) URI=$1
-	RewriteRule .* - [E=SET_CANONICAL_HEADER:1]
-	Header set Link "<http://%{HOSTNAME}e%{URI}e>; rel=\"canonical\"" env=SET_CANONICAL_HEADER
+```
+# If non empty query string add Canonical header
+RewriteCond %{QUERY_STRING} ^.+$ [NC]
+SetEnvIf Host (.*) HOSTNAME=$1
+SetEnvIf Request_URI (.*) URI=$1
+RewriteRule .* - [E=SET_CANONICAL_HEADER:1]
+Header set Link "<http://%{HOSTNAME}e%{URI}e>; rel=\"canonical\"" env=SET_CANONICAL_HEADER
+```
 
 So we have non empty query string rewrite condition in first line.
 

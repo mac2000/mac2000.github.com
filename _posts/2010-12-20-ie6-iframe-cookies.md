@@ -13,12 +13,16 @@ Probably the easiest way to do this is to place iframe on external.com that show
 
 To solve this, add:
 
-    Page.Response.AddHeader("p3p", "CP=\"CAO PSA OUR\"");
+```csharp
+Page.Response.AddHeader("p3p", "CP=\"CAO PSA OUR\"");
+```
 
 in page load of lo gin form, so iframe will have enought privileges to save cookies.
 
 Also this helps to fix IE7-8 bugs in facebook iframe applications, whitch throws:
 
-    HTML Parsing Error: Unable to modify the parent container element before the child element is closed (KB927917)
+```
+HTML Parsing Error: Unable to modify the parent container element before the child element is closed (KB927917)
+```
 
 Problem in ScriptResource.axd - which generates javascript functions that tries do something with parent window, whitch is not our.

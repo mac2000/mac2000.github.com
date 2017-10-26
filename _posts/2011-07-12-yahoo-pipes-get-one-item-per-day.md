@@ -23,15 +23,17 @@ As example we have very big rss feed and want to get one item per day. All item 
 
 We have xml like this one:
 
-    <?xml version="1.0" encoding="UTF-8"?>
-    <items>
-        <item>Some text 1</item>
-        <item>Some text 2</item>
-        <item>Some text 3</item>
-        <item>Some text 4</item>
-        ...
-        <item>Some text 1000</item>
-    </items>
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<items>
+    <item>Some text 1</item>
+    <item>Some text 2</item>
+    <item>Some text 3</item>
+    <item>Some text 4</item>
+    ...
+    <item>Some text 1000</item>
+</items>
+```
 
 And want to get rss that will retrive one item per day from start date.
 

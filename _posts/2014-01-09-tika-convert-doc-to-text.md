@@ -8,7 +8,9 @@ http://tika.apache.org/ - here is tool site, just download jar file somewhere an
 
 Now you can convert documents, like this:
 
-	java -jar tika-app-1.4.jar test.doc > test.html
-	java -jar tika-app-1.4.jar --text test.doc > test.txt
+```sh
+java -jar tika-app-1.4.jar test.doc > test.html
+java -jar tika-app-1.4.jar --text test.doc > test.txt
+```
 
 This tool can convert following formats: html, doc, docx, xml, odf, pdf, epub and others.

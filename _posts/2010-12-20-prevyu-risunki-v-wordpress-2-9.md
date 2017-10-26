@@ -11,10 +11,14 @@ tags: [php, wordpress, add_theme_support, post-thumbnails, the_post_thumbnail, t
 
 Включить их. Для этого достаточно где ни буть в файле `functions.php` прописать вот такую строчку кода:
 
-    add_theme_support( 'post-thumbnails' );
+```php
+add_theme_support( 'post-thumbnails' );
+```
 
 В необходимых файлах темы прописать их вывод, паример так:
 
-    <?php the_post_thumbnail( 'thumbnail', array('class' => 'alignleft') ); ?>
+```php
+<?php the_post_thumbnail( 'thumbnail', array('class' => 'alignleft') ); ?>
+```
 
 В функцию не обязательно передавать какие либо параметры. Так же вместо первого параметра можно передать массив из двух цыфр задающих размер для превью, например `array(200,200)`.

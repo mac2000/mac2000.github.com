@@ -17,14 +17,16 @@ One object store other
 
 ![Unidirectional Association](/examples/uml_basics/Association/Unidirectional/UML.svg)
 
-    class Engine {}
+```php
+class Engine {}
 
-    class Car {
-        /**
-        * @var Engine
-        */
-        protected $engine;
-    }
+class Car {
+    /**
+    * @var Engine
+    */
+    protected $engine;
+}
+```
 
 Bidirectional
 -------------
@@ -33,19 +35,21 @@ Both objects know about each other
 
 ![Bidirectional Association](/examples/uml_basics/Association/Bidirectional/UML.svg)
 
-    class Book {
-        /**
-        * @var Person
-        */
-        protected $person;
-    }
+```php
+class Book {
+    /**
+    * @var Person
+    */
+    protected $person;
+}
 
-    class Person {
-        /**
-        * @var array Books[]
-        */
-        protected $books;
-    }
+class Person {
+    /**
+    * @var array Books[]
+    */
+    protected $books;
+}
+```
 
 
 Composition
@@ -55,30 +59,32 @@ Coupling (dependency) - object not only knowing about its dependency but also cr
 
 ![Composition Association](/examples/uml_basics/Association/Composition/UML.svg)
 
-    class Set {}
+```php
+class Set {}
 
-    class Slim {
-        /**
-        * @var Set
-        */
-        protected $container;
+class Slim {
+    /**
+    * @var Set
+    */
+    protected $container;
 
-        function __construct() {
+    function __construct() {
+        $this->container = new Set();
+    }
+
+    // -- OR --
+
+    /**
+    * @return Set
+    */
+    public function getContainer() {
+        if ($this->container == null) {
             $this->container = new Set();
         }
-
-        // -- OR --
-
-        /**
-        * @return Set
-        */
-        public function getContainer() {
-            if ($this->container == null) {
-                $this->container = new Set();
-            }
-            return $this->container;
-        }
+        return $this->container;
     }
+}
+```
 
 
 Aggregation
@@ -88,33 +94,35 @@ Object knows about its children but does not create them, it recieves them throu
 
 ![Aggregation Association](/examples/uml_basics/Association/Aggregation/UML.svg)
 
-    class Swift_Transport {}
+```php
+class Swift_Transport {}
 
-    class Swift_Mailer {
-        /**
-        * @var Swift_Transport
-        */
-        protected $transport;
+class Swift_Mailer {
+    /**
+    * @var Swift_Transport
+    */
+    protected $transport;
 
-        /**
-        * @param Swift_Transport $transport
-        */
-        public function __construct(Swift_Transport $transport)
-        {
-            $this->transport = $transport;
-        }
-
-        // -- OR --
-
-        /**
-        * @param Swift_Transport $transport ;
-        * @return Swift_Mailer
-        */
-        public static function newInstance(Swift_Transport $transport)
-        {
-            return new self($transport);
-        }
+    /**
+    * @param Swift_Transport $transport
+    */
+    public function __construct(Swift_Transport $transport)
+    {
+        $this->transport = $transport;
     }
+
+    // -- OR --
+
+    /**
+    * @param Swift_Transport $transport ;
+    * @return Swift_Mailer
+    */
+    public static function newInstance(Swift_Transport $transport)
+    {
+        return new self($transport);
+    }
+}
+```
 
 
 Dependency
@@ -124,11 +132,13 @@ One object uses another, but not store it
 
 ![Dependency](/examples/uml_basics/Dependency/UML.svg)
 
-    class Request {}
+```php
+class Request {}
 
-    class HomeController {
-        public function indexAction(Request $request) {}
-    }
+class HomeController {
+    public function indexAction(Request $request) {}
+}
+```
 
 
 Realization (Implementation)
@@ -136,9 +146,11 @@ Realization (Implementation)
 
 ![Implementation](/examples/uml_basics/Realization/UML.svg)
 
-    interface LoggerInterface {}
+```php
+interface LoggerInterface {}
 
-    class ConsoleLogger implements LoggerInterface {}
+class ConsoleLogger implements LoggerInterface {}
+```
 
 
 Generalization (Inheritance)
@@ -146,6 +158,8 @@ Generalization (Inheritance)
 
 ![Inheritance](/examples/uml_basics/Generalization/UML.svg)
 
-    class Response {}
+```php
+class Response {}
 
-    class HttpResponse extends Response {}
+class HttpResponse extends Response {}
+```

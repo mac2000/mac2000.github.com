@@ -6,21 +6,23 @@ tags: [jquery, ui, widget]
 
 Minimal code sample:
 
-    (function($, undefined) {
-        $.widget('name.space', {
-            iAmPrivate:undefined,
-            options:{/* default options */},
-            _iAmPrivate:function(){},
-            iAmPublic:function(){},
-            _create:function (){},
-            _setOption:function(key, value){
-                this._super('_setOption', key, value);
-            },
-            destroy:function(){
-                this._super('destroy');
-            }
-        });
-    })(jQuery);
+```js
+(function($, undefined) {
+    $.widget('name.space', {
+        iAmPrivate:undefined,
+        options:{/* default options */},
+        _iAmPrivate:function(){},
+        iAmPublic:function(){},
+        _create:function (){},
+        _setOption:function(key, value){
+            this._super('_setOption', key, value);
+        },
+        destroy:function(){
+            this._super('destroy');
+        }
+    });
+})(jQuery);
+```
 
 Links
 -----

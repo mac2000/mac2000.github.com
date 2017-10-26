@@ -9,14 +9,16 @@ Python has great feature, you can create file like this one:
 test.py
 -------
 
-    #!/usr/bin/env python
-    #-*- coding: utf-8 -*-
+```python
+#!/usr/bin/env python
+#-*- coding: utf-8 -*-
 
-    def test():
-        print 'Hello World';
+def test():
+    print 'Hello World';
 
-    if __name__ == "__main__":
-        test()
+if __name__ == "__main__":
+    test()
+```
 
 And use it right from console or import it to another script.
 
@@ -27,11 +29,13 @@ Found at: http://stackoverflow.com/questions/2413991/php-equivalent-of-pythons-n
 test.php
 --------
 
-    <?php
-    function test() {
-        echo 'hello world'.PHP_EOL;
-    }
+```php
+<?php
+function test() {
+    echo 'hello world'.PHP_EOL;
+}
 
-    if(!debug_backtrace()) {
-        test();
-    }
+if(!debug_backtrace()) {
+    test();
+}
+```

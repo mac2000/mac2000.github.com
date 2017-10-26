@@ -21,7 +21,9 @@ tags: [naive, bayes, classifier, mining]
 
 **Формула**
 
-    log(Dc/D) + foreach(word) { log( (Wc+1)/(V+Lc) ) }
+```
+log(Dc/D) + foreach(word) { log( (Wc+1)/(V+Lc) ) }
+```
 
 Где:
 
@@ -33,16 +35,18 @@ tags: [naive, bayes, classifier, mining]
 
 **Таблица слов**
 
-    WORD            SPAM    NOT SPAM
-    --------------------------------
-    предоставляю    1       0
-    услуги          1       0
-    бухгалтера      1       0
-    спешите         1       0
-    купить          1       1
-    виагру          1       0
-    надо            0       1
-    молоко          0       1
+```
+WORD            SPAM    NOT SPAM
+--------------------------------
+предоставляю    1       0
+услуги          1       0
+бухгалтера      1       0
+спешите         1       0
+купить          1       1
+виагру          1       0
+надо            0       1
+молоко          0       1
+```
 
 Другими словами мы просто разбили все обучаемые фразы на слова и записали их принадлежность к тому или иному классу (SPAM, NOT SPAM)
 
@@ -114,181 +118,187 @@ NOT SPAM
 
 Реализация алготма на SQL или когда стоит посмотреть в сторону Mongodb
 
-    DROP TABLE IF EXISTS words;
-    DROP TABLE IF EXISTS documents;
+```sql
+DROP TABLE IF EXISTS words;
+DROP TABLE IF EXISTS documents;
 
-    CREATE TABLE IF NOT EXISTS documents (
-        uid INT UNSIGNED NOT NULL,
-        total INT UNSIGNED NOT NULL DEFAULT 0,
-        spam INT UNSIGNED NOT NULL DEFAULT 0,
-        PRIMARY KEY (uid)
-    );
+CREATE TABLE IF NOT EXISTS documents (
+    uid INT UNSIGNED NOT NULL,
+    total INT UNSIGNED NOT NULL DEFAULT 0,
+    spam INT UNSIGNED NOT NULL DEFAULT 0,
+    PRIMARY KEY (uid)
+);
 
-    CREATE TABLE IF NOT EXISTS words (
-        uid INT UNSIGNED NOT NULL,
-        word VARCHAR(100) NOT NULL,
-        spam INT UNSIGNED NOT NULL DEFAULT 0,
-        ham INT UNSIGNED NOT NULL DEFAULT 0,
-        PRIMARY KEY (uid, word),
-        FOREIGN KEY (uid)
-            REFERENCES documents(uid)
-            ON DELETE CASCADE
-            ON UPDATE CASCADE
-    );
+CREATE TABLE IF NOT EXISTS words (
+    uid INT UNSIGNED NOT NULL,
+    word VARCHAR(100) NOT NULL,
+    spam INT UNSIGNED NOT NULL DEFAULT 0,
+    ham INT UNSIGNED NOT NULL DEFAULT 0,
+    PRIMARY KEY (uid, word),
+    FOREIGN KEY (uid)
+        REFERENCES documents(uid)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
 
-    DROP PROCEDURE IF EXISTS IncrementWordStats;
-    DELIMITER $$
-    CREATE PROCEDURE IncrementWordStats(input_uid INT UNSIGNED, input_word VARCHAR(100), input_spam INT, input_ham INT)
-    BEGIN
+DROP PROCEDURE IF EXISTS IncrementWordStats;
+DELIMITER $$
+CREATE PROCEDURE IncrementWordStats(input_uid INT UNSIGNED, input_word VARCHAR(100), input_spam INT, input_ham INT)
+BEGIN
 
-        INSERT INTO words (uid, word, spam, ham) VALUES (input_uid, input_word, input_spam, input_ham)
-        ON DUPLICATE KEY UPDATE spam = spam + input_spam, ham = ham + input_ham;
+    INSERT INTO words (uid, word, spam, ham) VALUES (input_uid, input_word, input_spam, input_ham)
+    ON DUPLICATE KEY UPDATE spam = spam + input_spam, ham = ham + input_ham;
 
-    END$$
-    DELIMITER ;
+END$$
+DELIMITER ;
 
-    DROP PROCEDURE IF EXISTS explode;
-    DELIMITER $$
-    CREATE PROCEDURE explode(input TEXT)
-    BEGIN
+DROP PROCEDURE IF EXISTS explode;
+DELIMITER $$
+CREATE PROCEDURE explode(input TEXT)
+BEGIN
 
-        DROP TEMPORARY TABLE IF EXISTS explode;
-        CREATE TEMPORARY TABLE explode(
-            item VARCHAR(200) NOT NULL
-        ) ENGINE=Memory;
-
-
-        SET @separator = ',';
-        SET @separator_length = CHAR_LENGTH(@separator);
-
-        WHILE input != '' > 0 DO
-            SET @current_value = SUBSTRING_INDEX(input, @separator, 1);
-            INSERT INTO explode VALUES(@current_value);
-            SET input = SUBSTRING(input, CHAR_LENGTH(@current_value) + @separator_length + 1);
-        END WHILE;
-
-    END$$
-    DELIMITER ;
-
-    DROP PROCEDURE IF EXISTS AddDocument;
-    DELIMITER $$
-    CREATE PROCEDURE AddDocument(input_uid INT UNSIGNED, input_text TEXT, is_spam INT(1))
-    BEGIN
-
-        INSERT INTO documents (uid, total, spam) VALUES(input_uid, 1, is_spam)
-        ON DUPLICATE KEY UPDATE total = total + 1, spam = IF(is_spam = 1, spam + 1,spam);
-
-        CALL explode(input_text);
-
-        INSERT INTO words (uid, word, spam, ham)
-        SELECT input_uid AS uid, item AS word, is_spam AS spam, IF(is_spam = 1, 0, 1) AS ham FROM explode
-        ON DUPLICATE KEY UPDATE spam = spam + VALUES(spam), ham = ham + VALUES(ham);
-
-    END$$
-    DELIMITER ;
-
-    DROP PROCEDURE IF EXISTS CheckDocument;
-    DELIMITER $$
-    CREATE PROCEDURE CheckDocument(input_uid INT UNSIGNED, input_text TEXT)
-    BEGIN
-
-        SELECT total INTO @D FROM documents WHERE documents.uid = input_uid;
-        SELECT spam INTO @Dc_spam FROM documents WHERE documents.uid = input_uid;
-        SELECT total - spam INTO @Dc_ham FROM documents WHERE documents.uid = input_uid;
-        SELECT COUNT(*) INTO @V FROM words WHERE words.uid = input_uid;
-        SELECT COUNT(*) INTO @Lc_spam  FROM words WHERE words.uid = input_uid AND spam <> 0;
-        SELECT COUNT(*) INTO @Lc_ham  FROM words WHERE words.uid = input_uid AND ham <> 0;
-
-        CALL explode(input_text);
+    DROP TEMPORARY TABLE IF EXISTS explode;
+    CREATE TEMPORARY TABLE explode(
+        item VARCHAR(200) NOT NULL
+    ) ENGINE=Memory;
 
 
+    SET @separator = ',';
+    SET @separator_length = CHAR_LENGTH(@separator);
+
+    WHILE input != '' > 0 DO
+        SET @current_value = SUBSTRING_INDEX(input, @separator, 1);
+        INSERT INTO explode VALUES(@current_value);
+        SET input = SUBSTRING(input, CHAR_LENGTH(@current_value) + @separator_length + 1);
+    END WHILE;
+
+END$$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS AddDocument;
+DELIMITER $$
+CREATE PROCEDURE AddDocument(input_uid INT UNSIGNED, input_text TEXT, is_spam INT(1))
+BEGIN
+
+    INSERT INTO documents (uid, total, spam) VALUES(input_uid, 1, is_spam)
+    ON DUPLICATE KEY UPDATE total = total + 1, spam = IF(is_spam = 1, spam + 1,spam);
+
+    CALL explode(input_text);
+
+    INSERT INTO words (uid, word, spam, ham)
+    SELECT input_uid AS uid, item AS word, is_spam AS spam, IF(is_spam = 1, 0, 1) AS ham FROM explode
+    ON DUPLICATE KEY UPDATE spam = spam + VALUES(spam), ham = ham + VALUES(ham);
+
+END$$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS CheckDocument;
+DELIMITER $$
+CREATE PROCEDURE CheckDocument(input_uid INT UNSIGNED, input_text TEXT)
+BEGIN
+
+    SELECT total INTO @D FROM documents WHERE documents.uid = input_uid;
+    SELECT spam INTO @Dc_spam FROM documents WHERE documents.uid = input_uid;
+    SELECT total - spam INTO @Dc_ham FROM documents WHERE documents.uid = input_uid;
+    SELECT COUNT(*) INTO @V FROM words WHERE words.uid = input_uid;
+    SELECT COUNT(*) INTO @Lc_spam  FROM words WHERE words.uid = input_uid AND spam <> 0;
+    SELECT COUNT(*) INTO @Lc_ham  FROM words WHERE words.uid = input_uid AND ham <> 0;
+
+    CALL explode(input_text);
+
+
+    SELECT
+        LOG(@Dc_spam / @D) + SUM(LOG( (Wc_spam + 1) / ( @V + @Lc_spam ) )) AS spam,
+        LOG(@Dc_ham / @D) + SUM(LOG( (Wc_ham + 1) / ( @V + @Lc_ham ) )) AS ham
+    FROM (
         SELECT
-            LOG(@Dc_spam / @D) + SUM(LOG( (Wc_spam + 1) / ( @V + @Lc_spam ) )) AS spam,
-            LOG(@Dc_ham / @D) + SUM(LOG( (Wc_ham + 1) / ( @V + @Lc_ham ) )) AS ham
-        FROM (
-            SELECT
-                (SELECT COUNT(*) FROM words WHERE words.uid = input_uid AND words.word = item AND spam <> 0) AS Wc_spam,
-                (SELECT COUNT(*) FROM words WHERE words.uid = input_uid AND words.word = item AND ham <> 0) AS Wc_ham
-            FROM explode
-        ) AS q;
+            (SELECT COUNT(*) FROM words WHERE words.uid = input_uid AND words.word = item AND spam <> 0) AS Wc_spam,
+            (SELECT COUNT(*) FROM words WHERE words.uid = input_uid AND words.word = item AND ham <> 0) AS Wc_ham
+        FROM explode
+    ) AS q;
 
-    END$$
-    DELIMITER ;
+END$$
+DELIMITER ;
 
-    START TRANSACTION;
-    CALL AddDocument(1, 'предоставляю,услуги,бухгалтера', 1);
-    CALL AddDocument(1, 'спешите,купить,виагру', 1);
-    CALL AddDocument(1, 'надо,купить,молоко', 0);
-    COMMIT;
+START TRANSACTION;
+CALL AddDocument(1, 'предоставляю,услуги,бухгалтера', 1);
+CALL AddDocument(1, 'спешите,купить,виагру', 1);
+CALL AddDocument(1, 'надо,купить,молоко', 0);
+COMMIT;
 
-    -- SELECT * FROM words;
-    -- SELECT * FROM documents;
+-- SELECT * FROM words;
+-- SELECT * FROM documents;
 
-    CALL CheckDocument(1, 'надо,купить,сигареты'); -- @spam = -7.63, @ham = -6.90
+CALL CheckDocument(1, 'надо,купить,сигареты'); -- @spam = -7.63, @ham = -6.90
+```
 
 В тестовом примере добавленно поле uid (user id), но суть от этого не меняеться. Задача немного не стандартная и на SQL решаеться, скажем так, не очень красиво.
 
 В табличку words нам надо не просто писать данные, а инкриментить их, что вызывает неудобства, а теперь гвоздь программы mongodb:
 
-    db.words.findAndModify({
-        query: {uid: 1, word: 'buy'}, // найди мне запись с uid = 1 AND word = 'buy'
-        update: { $inc: { spam: 1, ham: 0 } }, // проикрименти поля spam и ham на соотв, значения
-        upsert: true // если ничего не найдешь - вставь новую запись
-    });
+```js
+db.words.findAndModify({
+    query: {uid: 1, word: 'buy'}, // найди мне запись с uid = 1 AND word = 'buy'
+    update: { $inc: { spam: 1, ham: 0 } }, // проикрименти поля spam и ham на соотв, значения
+    upsert: true // если ничего не найдешь - вставь новую запись
+});
+```
 
 
 Ну и вот более полная реализация:
 
-    ['предоставляю', 'услуги', 'бухгалтера'].forEach(function(word){
-        db.words.findAndModify({
-            query: {uid: 1, word: word},
-            update: { $inc: { spam: 1, ham: 0 } },
-            upsert: true
-        });
-    });
-
-    ['спешите', 'купить', 'виагру'].forEach(function(word){
-        db.words.findAndModify({
-            query: {uid: 1, word: word},
-            update: { $inc: { spam: 1, ham: 0 } },
-            upsert: true
-        });
-    });
-
-    ['надо', 'купить', 'молоко'].forEach(function(word){
-        db.words.findAndModify({
-            query: {uid: 1, word: word},
-            update: { $inc: { spam: 0, ham: 1 } },
-            upsert: true
-        });
-    });
-
-    db.documents.findAndModify({
-        query: {uid: 1},
-        update: { $set: { total: 3, spam: 2 } },
+```js
+['предоставляю', 'услуги', 'бухгалтера'].forEach(function(word){
+    db.words.findAndModify({
+        query: {uid: 1, word: word},
+        update: { $inc: { spam: 1, ham: 0 } },
         upsert: true
     });
+});
 
-
-
-    var D = db.documents.findOne({uid: 1}).total;
-    var Dc_spam = db.documents.findOne({uid: 1}).spam;
-    var Dc_ham = D - Dc_spam;
-
-    var V = db.words.find({uid: 1}).count();
-    var Lc_spam = db.words.find({uid: 1, spam: {$gt: 0}}).count();
-    var Lc_ham = db.words.find({uid: 1, ham: {$gt: 0}}).count();
-
-    var spam = Math.log(Dc_spam / D);
-    var ham = Math.log(Dc_ham / D);
-
-    ['надо', 'купить', 'сигареты'].forEach(function(word){
-        var Wc_spam = db.words.find({uid: 1, word: word, spam: {$gt: 0}}).count();
-        var Wc_ham = db.words.find({uid: 1, word: word, ham: {$gt: 0}}).count();
-
-        spam = spam + Math.log( (Wc_spam + 1) / (V + Lc_spam) );
-        ham = ham + Math.log( (Wc_ham + 1) / (V + Lc_ham) );
+['спешите', 'купить', 'виагру'].forEach(function(word){
+    db.words.findAndModify({
+        query: {uid: 1, word: word},
+        update: { $inc: { spam: 1, ham: 0 } },
+        upsert: true
     });
+});
 
-    print(spam); // -7.62
-    print(ham); // -6.90
+['надо', 'купить', 'молоко'].forEach(function(word){
+    db.words.findAndModify({
+        query: {uid: 1, word: word},
+        update: { $inc: { spam: 0, ham: 1 } },
+        upsert: true
+    });
+});
+
+db.documents.findAndModify({
+    query: {uid: 1},
+    update: { $set: { total: 3, spam: 2 } },
+    upsert: true
+});
+
+
+
+var D = db.documents.findOne({uid: 1}).total;
+var Dc_spam = db.documents.findOne({uid: 1}).spam;
+var Dc_ham = D - Dc_spam;
+
+var V = db.words.find({uid: 1}).count();
+var Lc_spam = db.words.find({uid: 1, spam: {$gt: 0}}).count();
+var Lc_ham = db.words.find({uid: 1, ham: {$gt: 0}}).count();
+
+var spam = Math.log(Dc_spam / D);
+var ham = Math.log(Dc_ham / D);
+
+['надо', 'купить', 'сигареты'].forEach(function(word){
+    var Wc_spam = db.words.find({uid: 1, word: word, spam: {$gt: 0}}).count();
+    var Wc_ham = db.words.find({uid: 1, word: word, ham: {$gt: 0}}).count();
+
+    spam = spam + Math.log( (Wc_spam + 1) / (V + Lc_spam) );
+    ham = ham + Math.log( (Wc_ham + 1) / (V + Lc_ham) );
+});
+
+print(spam); // -7.62
+print(ham); // -6.90
+```

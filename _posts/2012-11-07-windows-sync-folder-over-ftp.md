@@ -16,35 +16,45 @@ Download and install [WinSCP](http://winscp.net/eng/download.php). I used protab
 
 **pull.txt**
 
-    option batch abort
-    option confirm off
-    open ftp://username:password@example.com
-    synchronize local "%USERPROFILE%\Music" "/Music"
-    close
-    exit
+```sh
+option batch abort
+option confirm off
+open ftp://username:password@example.com
+synchronize local "%USERPROFILE%\Music" "/Music"
+close
+exit
+```
 
 **pull.cmd**
 
-    WinSCP.com /script=pull.txt
-    PAUSE
+```sh
+WinSCP.com /script=pull.txt
+PAUSE
+```
 
 **push.txt**
 
-    option batch abort
-    option confirm off
-    open ftp://username:password@example.com
-    synchronize remote "%USERPROFILE%\Music" "/Music"
-    close
-    exit
+```sh
+option batch abort
+option confirm off
+open ftp://username:password@example.com
+synchronize remote "%USERPROFILE%\Music" "/Music"
+close
+exit
+```
 
 **push.cmd**
 
-    WinSCP.com /script=push.txt
-    PAUSE
+```sh
+WinSCP.com /script=push.txt
+PAUSE
+```
 
 Both scripts will not delete any files - only synchronize new one. But if you want to delete files use `-delete` switch like this:
 
-    synchronize local -delete "%USERPROFILE%\Music" "/Music"
+```sh
+synchronize local -delete "%USERPROFILE%\Music" "/Music"
+```
 
 For more info about `synchronize` command go to: http://winscp.net/eng/docs/scriptcommand_synchronize
 

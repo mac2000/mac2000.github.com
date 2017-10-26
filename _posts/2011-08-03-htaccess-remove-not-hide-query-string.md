@@ -5,17 +5,19 @@ title: htaccess remove (not hide) query string
 tags: [htaccess, mod_rewrite, query_string, request_uri, rewrite, rewritecond, rewriterule]
 ---
 
-    RewriteEngine On
+```
+RewriteEngine On
 
-    RewriteCond %{REQUEST_URI} ^/index.php$ [NC,OR]
-    #RewriteCond %{REQUEST_URI} ^/index.html$ [NC,OR]
-    #RewriteCond %{REQUEST_URI} ^/index.htm$ [NC,OR]
-    #RewriteCond %{REQUEST_URI} ^/index$ [NC,OR]
-    #RewriteCond %{REQUEST_URI} ^/home$ [NC,OR]
-    RewriteCond %{REQUEST_URI} ^/$
-    RewriteCond %{QUERY_STRING} .
-    RewriteCond %{QUERY_STRING} !q=
-    RewriteRule .* /? [R=301,L]
+RewriteCond %{REQUEST_URI} ^/index.php$ [NC,OR]
+#RewriteCond %{REQUEST_URI} ^/index.html$ [NC,OR]
+#RewriteCond %{REQUEST_URI} ^/index.htm$ [NC,OR]
+#RewriteCond %{REQUEST_URI} ^/index$ [NC,OR]
+#RewriteCond %{REQUEST_URI} ^/home$ [NC,OR]
+RewriteCond %{REQUEST_URI} ^/$
+RewriteCond %{QUERY_STRING} .
+RewriteCond %{QUERY_STRING} !q=
+RewriteRule .* /? [R=301,L]
+```
 
 This will redirect all requests like:
 

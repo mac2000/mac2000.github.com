@@ -13,43 +13,45 @@ http://snipplr.com/view/9692/extjs--simple-ajax-request-with-callback-and-json-t
 
 Code:
 
-    <%-- MASKING AJAX --%>
-    <script type="text/javascript">
-        var maskingAjax = new Ext.data.Connection({
-            listeners: {
-                'beforerequest': {
-                    fn: function (con, opt) {
-                        Ext.get(document.body).mask('Loading...');
-                    },
-                    scope: this
+```html
+<%-- MASKING AJAX --%>
+<script type="text/javascript">
+    var maskingAjax = new Ext.data.Connection({
+        listeners: {
+            'beforerequest': {
+                fn: function (con, opt) {
+                    Ext.get(document.body).mask('Loading...');
                 },
-                'requestcomplete': {
-                    fn: function (con, res, opt) {
-                        Ext.get(document.body).unmask();
-                    },
-                    scope: this
+                scope: this
+            },
+            'requestcomplete': {
+                fn: function (con, res, opt) {
+                    Ext.get(document.body).unmask();
                 },
-                'requestexception': {
-                    fn: function (con, res, opt) {
-                        Ext.get(document.body).unmask();
-                    },
-                    scope: this
-                }
+                scope: this
+            },
+            'requestexception': {
+                fn: function (con, res, opt) {
+                    Ext.get(document.body).unmask();
+                },
+                scope: this
             }
-        });
-    </script>
-
-    <%-- GET RABOTA.UA COMPANY INFO --%>
-    <script type="text/javascript">
-        function getCompanyInfo(id) {
-            maskingAjax.request({
-                url: '<%= ResolveUrl("~/json/NotebookCompanyInfo/read.ashx")%>',
-                failure: function () { alert('err'); },
-                success: function (r, o) {
-                    var company = Ext.decode(r.responseText);
-                    alert('all ok'); //reloadDRStore();
-                },
-                params: { NotebookId: id }
-            });
         }
-    </script>
+    });
+</script>
+
+<%-- GET RABOTA.UA COMPANY INFO --%>
+<script type="text/javascript">
+    function getCompanyInfo(id) {
+        maskingAjax.request({
+            url: '<%= ResolveUrl("~/json/NotebookCompanyInfo/read.ashx")%>',
+            failure: function () { alert('err'); },
+            success: function (r, o) {
+                var company = Ext.decode(r.responseText);
+                alert('all ok'); //reloadDRStore();
+            },
+            params: { NotebookId: id }
+        });
+    }
+</script>
+```

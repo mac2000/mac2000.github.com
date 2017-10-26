@@ -12,18 +12,22 @@ Download [pem](http://curl.haxx.se/ca/cacert.pem) file from http://curl.haxx.se/
 
 In you code use it like so:
 
-	curl_setopt($ch, CURLOPT_CAINFO, "C:/inetpub/wwwroot/cacert.pem");
+```php
+curl_setopt($ch, CURLOPT_CAINFO, "C:/inetpub/wwwroot/cacert.pem");
+```
 
 And one more example for guzzle:
 
-	$this->client = new Client([
-        'base_url' => 'https://testrus.search.windows.net/',
-        'defaults' => [
-            'verify' => 'C:/inetpub/wwwroot/cacert.pem',
-            'headers' => [
-                'Content-Type' => 'application/json; charset=utf-8',
-                'api-key' => '********************************'
-            ],
-            'query' => ['api-version' => '2015-02-28-Preview']
-        ]
-    ]);
+```php
+$this->client = new Client([
+    'base_url' => 'https://testrus.search.windows.net/',
+    'defaults' => [
+        'verify' => 'C:/inetpub/wwwroot/cacert.pem',
+        'headers' => [
+            'Content-Type' => 'application/json; charset=utf-8',
+            'api-key' => '********************************'
+        ],
+        'query' => ['api-version' => '2015-02-28-Preview']
+    ]
+]);
+```

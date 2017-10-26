@@ -14,23 +14,27 @@ You can also do it by hands, by adding `<UseVSHostingProcess>false</UseVSHosting
 
 Next step may be removing pdb and xml files that are copied with referenced libraries, to do so, you may want to add afterbuild target to your cproj file like this:
 
-	<Target Name="AfterBuild" Condition="'$(Configuration)' == 'Release'">
-		<Delete Files="$(OutputPath)Elasticsearch.Net.pdb" />
-		<Delete Files="$(OutputPath)Nest.pdb" />
-		<Delete Files="$(OutputPath)Elasticsearch.Net.xml" />
-		<Delete Files="$(OutputPath)Nest.xml" />
-	</Target>
+```xml
+<Target Name="AfterBuild" Condition="'$(Configuration)' == 'Release'">
+	<Delete Files="$(OutputPath)Elasticsearch.Net.pdb" />
+	<Delete Files="$(OutputPath)Nest.pdb" />
+	<Delete Files="$(OutputPath)Elasticsearch.Net.xml" />
+	<Delete Files="$(OutputPath)Nest.xml" />
+</Target>
+```
 
 Or if you want to delete everything at once you may do something like this:
 
-	<Target Name="AfterBuild" Condition="'$(Configuration)' == 'Release'">
-		<ItemGroup>
-			<FilesToDelete Include="$(OutputPath)*.pdb"/>
-			<FilesToDelete Include="$(OutputPath)*.xml"/>
-		</ItemGroup>
-		<Message Text="Delete: @(FilesToDelete, ', ')" Importance="High" />
-		<Delete Files="@(FilesToDelete)" />
-	</Target>
+```xml
+<Target Name="AfterBuild" Condition="'$(Configuration)' == 'Release'">
+	<ItemGroup>
+		<FilesToDelete Include="$(OutputPath)*.pdb"/>
+		<FilesToDelete Include="$(OutputPath)*.xml"/>
+	</ItemGroup>
+	<Message Text="Delete: @(FilesToDelete, ', ')" Importance="High" />
+	<Delete Files="@(FilesToDelete)" />
+</Target>
+```
 
 `ItemGroup` is a way to list files, that able to use asteriks.
 
@@ -46,31 +50,33 @@ Merge dll into exe
 
 First of all we need ILMerge tool, you may install it via nuget: `Install-Package ILMerge`
 
-	<Target Name="AfterBuild" Condition="'$(Configuration)' == 'Release'">
-		<ConvertToAbsolutePath Paths="$(OutputPath)">
-			<Output TaskParameter="AbsolutePaths" PropertyName="OutputFullPath" />
-		</ConvertToAbsolutePath>
-		<ItemGroup>
-			<MergeAssemblies Include="$(OutputPath)$(MSBuildProjectName).exe" />
-			<MergeAssemblies Include="$(OutputPath)Newtonsoft.Json.dll" />
-		</ItemGroup>
-		<PropertyGroup>
-			<OutputAssembly>$(OutputFullPath)$(MSBuildProjectName).Standalone.exe</OutputAssembly>
-			<Merger>$(SolutionDir)packages\ILMerge.2.14.1208\tools\ILMerge.exe</Merger>
-		</PropertyGroup>
-		<Message Text="Merge -&gt; $(OutputAssembly)" Importance="High" />
-		<Exec Command="&quot;$(Merger)&quot; /target:exe /out:&quot;$(OutputAssembly)&quot; @(MergeAssemblies->'&quot;%(FullPath)&quot;', ' ')" />
-		<ItemGroup>
-			<FilesToDelete Include="$(OutputPath)$(MSBuildProjectName).exe" />
-			<FilesToDelete Include="$(OutputPath)*.pdb" />
-			<FilesToDelete Include="$(OutputPath)*.xml" />
-			<FilesToDelete Include="$(OutputPath)*.dll" />
-		</ItemGroup>
-		<Message Text="Cleanup -&gt; @(FilesToDelete, ', ')" Importance="High" />
-		<Delete Files="@(FilesToDelete)" />
-		<Copy SourceFiles="$(OutputAssembly)" DestinationFiles="$(OutputPath)$(MSBuildProjectName).exe" />
-		<Delete Files="$(OutputAssembly)" />
-	</Target>
+```xml
+<Target Name="AfterBuild" Condition="'$(Configuration)' == 'Release'">
+	<ConvertToAbsolutePath Paths="$(OutputPath)">
+		<Output TaskParameter="AbsolutePaths" PropertyName="OutputFullPath" />
+	</ConvertToAbsolutePath>
+	<ItemGroup>
+		<MergeAssemblies Include="$(OutputPath)$(MSBuildProjectName).exe" />
+		<MergeAssemblies Include="$(OutputPath)Newtonsoft.Json.dll" />
+	</ItemGroup>
+	<PropertyGroup>
+		<OutputAssembly>$(OutputFullPath)$(MSBuildProjectName).Standalone.exe</OutputAssembly>
+		<Merger>$(SolutionDir)packages\ILMerge.2.14.1208\tools\ILMerge.exe</Merger>
+	</PropertyGroup>
+	<Message Text="Merge -&gt; $(OutputAssembly)" Importance="High" />
+	<Exec Command="&quot;$(Merger)&quot; /target:exe /out:&quot;$(OutputAssembly)&quot; @(MergeAssemblies->'&quot;%(FullPath)&quot;', ' ')" />
+	<ItemGroup>
+		<FilesToDelete Include="$(OutputPath)$(MSBuildProjectName).exe" />
+		<FilesToDelete Include="$(OutputPath)*.pdb" />
+		<FilesToDelete Include="$(OutputPath)*.xml" />
+		<FilesToDelete Include="$(OutputPath)*.dll" />
+	</ItemGroup>
+	<Message Text="Cleanup -&gt; @(FilesToDelete, ', ')" Importance="High" />
+	<Delete Files="@(FilesToDelete)" />
+	<Copy SourceFiles="$(OutputAssembly)" DestinationFiles="$(OutputPath)$(MSBuildProjectName).exe" />
+	<Delete Files="$(OutputAssembly)" />
+</Target>
+```
 
 `ConvertToAbsolutePath` is used to get full output path.
 
@@ -82,7 +88,9 @@ Note that later on, ILMerge package version may change, you should not forget to
 
 The main job is going to be in: `Exec` which is going to run something like:
 
-	ILMerge.exe /target:exe /out:App.Standalone.exe App.exe Newtonsoft.Json.dll
+```sh
+ILMerge.exe /target:exe /out:App.Standalone.exe App.exe Newtonsoft.Json.dll
+```
 
 `/target` may be `exe` or `winexe` depending of project you are building
 
