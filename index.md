@@ -3,7 +3,8 @@ layout: base
 title: My notes
 ---
 
-<aside class="recent">
+<div class="sidebyside">
+<aside>
 <h1>Recent</h1>
 <ul>
 {% for post in site.posts limit:20 %}
@@ -11,7 +12,7 @@ title: My notes
 {% endfor %}
 </ul>
 </aside>
-<aside class="howto">
+<aside>
 <h1>How to</h1>
 <ul>
 {% for page in site.pages %}
@@ -21,3 +22,4 @@ title: My notes
 {% endfor %}
 </ul>
 </aside>
+</div>

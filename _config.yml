@@ -4,9 +4,8 @@ lsi: false
 timezone: Europe/Kiev
 encoding: utf-8
 markdown: kramdown
-exclude: ["vendor", "scss", "README.md", "config.rb"]
 title: My notes
-production_url: http://mac-blog.org.ua
+production_url: https://mac-blog.org.ua
 author:
     name: Marchenko Alexandr
     email: marchenko.alexandr@gmail.com

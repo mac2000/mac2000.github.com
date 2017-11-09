@@ -5,7 +5,9 @@ title: WordPress custom database table example (full)
 tags: [add_menu_page, add_meta_box, add_submenu_page, admin_menu, dbDelta, do_meta_boxes, gettext, i18n, l10n, load_plugin_textdomain, mo, plugin, plugins_loaded, po, register_activation_hook, wordpress, WP_List_Table]
 ---
 
-![screenshot](/images/wp/cte1.png) ![screenshot](/images/wp/cte2.png)
+<amp-img src="/images/wp/cte1.png" alt="screenshot" width="822" height="492"></amp-img>
+
+<amp-img src="/images/wp/cte2.png" alt="screenshot" width="823" height="489"></amp-img>
 
 ```php
 <?php
