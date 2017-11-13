@@ -108,11 +108,11 @@ define('WP_ALLOW_MULTISITE', true);
 
 Теперь в админке в разделе **Инструменты** должен появиться новый пункт **Установка сети**.
 
-![screenshot](/images/wp/114.png)
+<amp-img src="/images/wp/114.png" alt="screenshot" width="174" height="178"></amp-img>
 
 Заходим туда, и в разделе **Адреса сайтов вашей сети** выбираем **Поддомены**.
 
-![screenshot](/images/wp/26.png)
+<amp-img src="/images/wp/26.png" alt="screenshot" width="468" height="179"></amp-img>
 
 Давим кнопку **Установить**. Wordpress матюкнеться что не может достучаться до поддоменов - на это можно не обращать внимания.
 
@@ -122,19 +122,19 @@ define('WP_ALLOW_MULTISITE', true);
 
 Если все было сделано правильно в разделе **Консоль** появиться новый пункт **Мои сайты**.
 
-![screenshot](/images/wp/32.png)
+<amp-img src="/images/wp/32.png" alt="screenshot" width="163" height="86"></amp-img>
 
 Управление сетью находиться по адресу: **/wp-admin/network/** собственно туда и нужно идти чтобы добавить новые сайты. В самом верхнем-правом углу в выпадайке - там где пишут "Привет, admin"
 
-![screenshot](/images/wp/6.png)
+<amp-img src="/images/wp/6.png" alt="screenshot" width="273" height="194"></amp-img>
 
-![screenshot](/images/wp/41.png)
+<amp-img src="/images/wp/41.png" alt="screenshot" width="400" height="152"></amp-img>
 
 При добавлении нового сайта - указываем его имя (не домен), заголовок и email админа (вбивать тот же email что и для админа - чтобы не плодить пользователей).
 
 В моем случае:
 
-![screenshot](/images/wp/71.png)
+<amp-img src="/images/wp/71.png" alt="screenshot" width="664" height="355"></amp-img>
 
 Теперь этот сайт доступен по адресу: **test1.multi.com**, можно в него залогиниться под тем же логином паролем что и для основного сайта (это возможно только при условии что добавляя новый сайт мы указали email администратора основного сайта, иначе будет создан отдельный пользователь для сайта).
 
@@ -159,11 +159,11 @@ require_once(ABSPATH . 'wp-settings.php');
 
 Остальные настройки (галочки) я не трогал.
 
-![screenshot](/images/wp/8.png)
+<amp-img src="/images/wp/8.png" alt="screenshot" width="411" height="489"></amp-img>
 
 Теперь идем на `test1.multi.com`, логинимся и идем в настроку доменов (`/wp-admin/tools.php?page=domainmapping`), прописываем в качестве домена `test1.ru`, и ставим галочку **Primary domain for this blog**.
 
-![screenshot](/images/wp/9.png)
+<amp-img src="/images/wp/9.png" alt="screenshot" width="220" height="128"></amp-img>
 
 После сохранения изменений сайт будет доступен по адресу **test1.ru**.
 
@@ -173,7 +173,7 @@ require_once(ABSPATH . 'wp-settings.php');
 
 Темы - ставяться как обычно в /wp-content/themes - после чего в настройках сети необходимо разрешить тему для выбора сайтами.
 
-![screenshot](/images/wp/10.png)
+<amp-img src="/images/wp/10.png" alt="screenshot" width="636" height="533"></amp-img>
 
 Ссылки:
 

@@ -6,7 +6,7 @@ tags: [wordpress, woocommerce, widget, WC_Product_Cat_List_Walker]
 
 Adding categories with images menu widget to head of site
 
-![Screenshot](/images/woo-categories-menu-with-images.png)
+<amp-img src="/images/woo-categories-menu-with-images.png" alt="screenshot" width="1062" height="380"></amp-img>
 
 (Do not take it hard from visual point of view, it is WIP)
 

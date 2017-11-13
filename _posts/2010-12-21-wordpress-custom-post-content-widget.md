@@ -28,7 +28,7 @@ add_action('init', 'register_post_type_txt');
 
 После чего в админке появится новосозданный кастомный тип записей
 
-![screenshot](/images/wp/image01.png)
+<amp-img src="/images/wp/image01.png" alt="screenshot" width="449" height="317"></amp-img>
 
 Подробнее о создании кастомных полей: [register_post_type](http://codex.wordpress.org/Function_Reference/register_post_type)
 
@@ -80,7 +80,7 @@ if ( function_exists('register_sidebar') ) {
 
 После добавления этого кода на странице виджетов должен появиться новый сайтбар:
 
-![screenshot](/images/wp/image11.png)
+<amp-img src="/images/wp/image11.png" alt="screenshot" width="721" height="291"></amp-img>
 
 Шаг 4. Вывод кастомных сайтбаров
 --------------------------------
@@ -171,4 +171,4 @@ class Custom_Post_Type_Widget extends WP_Widget {
 
 Примечание: Очень важно в форме правильно использовать методы `$this->get_field_id` и `$this->get_field_name` иначе данные не будут сохранятся и будет куча гемороя.
 
-![screenshot](/images/wp/image21.png)
+<amp-img src="/images/wp/image21.png" alt="screenshot" width="315" height="249"></amp-img>

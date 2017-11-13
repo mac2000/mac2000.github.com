@@ -77,7 +77,7 @@ tags: [GUI, javascript, UI, YUI]
 
 Все делается точно так же как и в примерах документации к [YUI](http://developer.yahoo.com/yui/) виджету [DataTable](http://developer.yahoo.com/yui/docs/YAHOO.widget.DataTable.html).
 
-![step1](/images/wp/yui-datatable-custom-celleditor-step1.png)
+<amp-img src="/images/wp/yui-datatable-custom-celleditor-step1.png" alt="step1" width="124" height="89"></amp-img>
 
 Сами данные в моем случае хранятся в массиве `YAHOO.example.Data.lng`, массивы `YAHOO.example.Data.languages` и `YAHOO.example.Data.skills` – вспомогательные и служат для форматирования выводимых данных, а так же в будущем для генерации списков в редакторе.
 
@@ -179,7 +179,7 @@ tags: [GUI, javascript, UI, YUI]
 
 Получилось вот так:
 
-![step2](/images/wp/yui-datatable-custom-celleditor-step2.png)
+<amp-img src="/images/wp/yui-datatable-custom-celleditor-step2.png" alt="step2" width="140" height="121"></amp-img>
 
 Уже сейчас все это дело работает, изменяя цифру мы тем самым меняем язык.
 
@@ -382,13 +382,13 @@ tags: [GUI, javascript, UI, YUI]
 })();
 ```
 
-![step3](/images/wp/yui-datatable-custom-celleditor-step3.png)
+<amp-img src="/images/wp/yui-datatable-custom-celleditor-step3.png" alt="step3" width="168" height="123"></amp-img>
 
 Основная часть задачи уже решена, в методах `attach` и `save` комментариями отмечены места которые были изменены, для достижения результата, теперь наш редактор гоняет запись целиком, вместо того чтобы гонять значение одной ячейки.
 
 Следующим логичным этапом будет добавление возможности добавления и удаления записей, что делается весьма просто.
 
-![step4](/images/wp/yui-datatable-custom-celleditor-step4.png)
+<amp-img src="/images/wp/yui-datatable-custom-celleditor-step4.png" alt="step4" width="164" height="94"></amp-img>
 
 Я просто добавил соответствующие ссылки в шапку таблицы и к каждой записи:
 
@@ -463,18 +463,18 @@ cancel: function(){
 },
 ```
 
-![step5](/images/wp/yui-datatable-custom-celleditor-step5.png)
+<amp-img src="/images/wp/yui-datatable-custom-celleditor-step5.png" alt="step5" width="165" height="181"></amp-img>
 
 Вот теперь это уже почти то что мне нужно, но остался еще один важный момент – валидация. Для его реализации пришлось перелопатить целую кучу кода, собственно тут уже каждый сам для себя должен определить что и как ему нужно.  Дело в том что поведение редактора по умолчанию меня совсем не устраивает, так например, нажав на кнопку добавления записи, мы добавляем новую запись со значениями равными нулю, мне бы хотелось чтобы при отмене эта запись удалялась. Так же при попытке сохранить значение не удовлетворяющее правилам валидации, редактор просто закрывается и не сохраняет значение – мне нужно оставлять его открытым и показывать уведомление об ошибке.
 
 По концовке получился вот такой контрол:
 
-![result](/images/wp/yui-datatable-custom-celleditor-result.png)
+<amp-img src="/images/wp/yui-datatable-custom-celleditor-result.png" alt="result" width="162" height="205"></amp-img>
 
 Его исходники: [yui-custom-celleditor](/images/wp/yui-custom-celleditor.html)
 
 Вот что из этого всего получилось в реальных условиях:
 
-[![video](http://img.youtube.com/vi/hMQz_MLIxQw/0.jpg)](http://www.youtube.com/watch?v=hMQz_MLIxQw)
+<a href="http://www.youtube.com/watch?v=hMQz_MLIxQw"><amp-img src="http://img.youtube.com/vi/hMQz_MLIxQw/0.jpg" alt="video" width="480" height="360"></amp-img></a>
 
 К сожалению посмотреть пощупать так просто не получится, придеться довольствоваться видео

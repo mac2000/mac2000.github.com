@@ -11,11 +11,11 @@ http://plugins.atlassian.com/plugin/details/10017
 
 Идем в свойства TortoiseSVN
 
-![screenshot](/images/wp/13.png)
+<amp-img src="/images/wp/13.png" alt="screenshot" width="534" height="424"></amp-img>
 
 Далее добавляем Issue Tracker Integration
 
-![screenshot](/images/wp/2.png)
+<amp-img src="/images/wp/2.png" alt="screenshot" width="700" height="465"></amp-img>
 
 Где:
 

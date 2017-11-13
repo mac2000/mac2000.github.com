@@ -9,7 +9,7 @@ Sample maded for rabota.ua sales department.
 
 Here is how it looks like:
 
-![](/images/wp/110.png)
+<amp-img src="/images/wp/110.png" alt="screenshot" width="1272" height="533"></amp-img>
 
 Main page code:
 

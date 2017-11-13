@@ -8,7 +8,7 @@ tags: [.net, bindingsource, c#, datagrid, datagridview, dataset, datasource, fil
 I have handler that produces some XML data, that must be loaded into client
 aplication datagridview to be filtered.
 
-![screenshot](/images/wp/dfp_filter.png)
+<amp-img src="/images/wp/dfp_filter.png" alt="screenshot" width="595" height="440"></amp-img>
 
 Here is handler:
 

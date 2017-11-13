@@ -21,7 +21,7 @@ http://theether.net/download/Microsoft/kb/288366.html
 
 Службы компонентов\Компьютеры\Мой компьютер\Настройка DCOM\ и тут самое интересное - ищем среди всего этого бардака нужный нам word.
 
-![screenshot](/images/wp/128.png)
+<amp-img src="/images/wp/128.png" alt="screenshot" width="364" height="218"></amp-img>
 
 У меня на машине стоить Microsoft Office 2010 - но ворд нашел как: **Документ Microsoft Word 97-2003**
 
@@ -29,9 +29,9 @@ http://theether.net/download/Microsoft/kb/288366.html
 
 Для того чтобы наверняка вычислить тот ли объект мы редактируем идем в **regedit.exe** и ищем **winword.exe**
 
-![screenshot](/images/wp/215.png)
+<amp-img src="/images/wp/215.png" alt="screenshot" width="774" height="603"></amp-img>
 
-![screenshot](/images/wp/37.png)
+<amp-img src="/images/wp/37.png" alt="screenshot" width="858" height="605"></amp-img>
 
 Ну и естественно в туле нет никаких фильтров либо возможности поиска, так что придеться все перелопачивать вручную.
 
@@ -39,11 +39,11 @@ http://theether.net/download/Microsoft/kb/288366.html
 
 Первое что необходимо это разрешить доступ к объекту из нужной нам учетной записи (в моем случае это была сетевая служба)
 
-![screenshot](/images/wp/46.png)
+<amp-img src="/images/wp/46.png" alt="screenshot" width="721" height="572"></amp-img>
 
 Далее необходимо настроить запуск объекта из под необходимой нам учетной записи
 
-![screenshot](/images/wp/55.png)
+<amp-img src="/images/wp/55.png" alt="screenshot" width="410" height="559"></amp-img>
 
 Логично что запись должна существовать, так же было бы не плохо под ней залогиниться и запустить ворд чтобы тот в свою очередь проинициализировался и сделал все свои темные дела.
 

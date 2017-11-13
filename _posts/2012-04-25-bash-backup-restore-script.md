@@ -80,7 +80,7 @@ drush -r /home/example/www/ cc all
 Interactive Restore Script
 --------------------------
 
-![screenshot](/images/wp/132.png)
+<amp-img src="/images/wp/132.png" alt="screenshot" width="670" height="420"></amp-img>
 
 ```sh
 touch ~/date-backup-restore.sh

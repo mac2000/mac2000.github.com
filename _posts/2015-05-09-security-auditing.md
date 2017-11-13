@@ -15,7 +15,7 @@ In C# there is `FileSystemWatcher` for this kind of applications, which has `Inc
 
 But there is a way to monitor changes **without** any additional software written/installed on your machine.
 
-![Security Auditing](/images/win-acl/SecurityAuditing.png)
+<amp-img src="/images/win-acl/SecurityAuditing.png" alt="Security Auditing" width="1625" height="881"></amp-img>
 
 So what we are going to do is to enable Security Auditing for changes made to any of children inside our object.
 
@@ -42,7 +42,7 @@ The answer is - in Event logs, but there is one more thing you should do before 
 
 By default - logging of security auditing is turned off, you can enable it with `secpol.msc`
 
-![Audit Object Access](/images/win-acl/secpol.png)
+<amp-img src="/images/win-acl/secpol.png" alt="Audit Object Access" width="793" height="563"></amp-img>
 
 But here is what you should be aware of - if you are on Windows 8.1 (not Pro) you have no secpol snapin available :(
 

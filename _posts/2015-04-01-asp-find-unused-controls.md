@@ -10,13 +10,13 @@ At this moment ndepend does not support analyzing of webforms sites but there is
 
 All you need to do is publish you site to local folder with precompiling all controls all other settings can be leaved with default options.
 
-![Precompile](/images/ndepend/precompile.png)
+<amp-img src="/images/ndepend/precompile.png" alt="Precompile" width="720" height="565"></amp-img>
 
 Now you can use ndepend to analyze assemblies in directory rather than analyzing Visual Studio solution
 
 Notice: If you will get circular reference errors or something like this, try tune precompilation settings like this:
 
-![Precompile settings](/images/ndepend/precompile_settings.png)
+<amp-img src="/images/ndepend/precompile_settings.png" alt="Precompile settings" width="442" height="455"></amp-img>
 
 It helped me a lot at least to get my project to be compiled
 
@@ -36,7 +36,7 @@ Application.Types.Where(t => t.IsClass && !t.IsGeneratedByCompiler && t.Name.Con
 WebForms Controls Usage
 -----------------------
 
-![WebForms Controls Usage](/images/ndepend/ndepend_webforms_controls_usage.png)
+<amp-img src="/images/ndepend/ndepend_webforms_controls_usage.png" alt="WebForms Controls Usage" width="729" height="384"></amp-img>
 
 At last there is easy way to find unused controls (but still should be carefull if you add controls dynamically to your page)
 
@@ -54,7 +54,7 @@ Application.Types.Where(t => t.IsClass && !t.IsGeneratedByCompiler && (t.Name.Co
 
 It will look something like this:
 
-![WebForms Controls Hierarchy](/images/ndepend/ndepend_webforms_controls_hierarchy_preview.png)
+<amp-img src="/images/ndepend/ndepend_webforms_controls_hierarchy_preview.png" alt="WebForms Controls Hierarchy" width="745" height="671"></amp-img>
 
 [Full tree](/images/ndepend/ndepend_webforms_controls_hierarchy.png) *3MB size*
 

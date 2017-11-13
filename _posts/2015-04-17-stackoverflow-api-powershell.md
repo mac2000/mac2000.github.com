@@ -217,7 +217,7 @@ Now we can get some aggregated data
 $items | Group-Object Region | select Name, Count | Sort-Object Count -Descending | select -First 10 | ft -AutoSize
 ```
 
-![Top 10 vacancies by region](http://goo.gl/qFJBEv)
+<amp-img src="http://goo.gl/qFJBEv" alt="Top 10 vacancies by region" width="600" height="200"></amp-img>
 
 ```
 Name          Count
@@ -240,7 +240,7 @@ Sweden           95
 $items | Group-Object Category | select Name, Count | Sort-Object Count -Descending | select -First 10 | ft -AutoSize
 ```
 
-![Top 10 vacancies by region](http://goo.gl/8Y3Tzc)
+<amp-img src="http://goo.gl/8Y3Tzc" alt="Top 10 vacancies by region" width="600" height="200"></amp-img>
 
 ```
 Name       Count

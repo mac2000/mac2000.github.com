@@ -5,7 +5,7 @@ title: Google map custom infoWindow
 tags: [geo, gmap, google, javascript]
 ---
 
-![screenshot](/images/wp/gmap_custom_infowindow.png)
+<amp-img src="/images/wp/gmap_custom_infowindow.png" alt="screenshot" width="389" height="281"></amp-img>
 
 Если есть необходимость создать кастомные infoWindow то очень здорово поможет [gmaps-utility-library-dev](http://code.google.com/p/gmaps-utility-library-dev/). А именно их класс [extinfowindow](http://gmaps-utility-library-dev.googlecode.com/svn/tags/extinfowindow/1.2/examples/).
 
