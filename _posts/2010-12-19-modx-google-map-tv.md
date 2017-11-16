@@ -28,7 +28,7 @@ tags: [google, map, modx]
 
 Тем самым мы добавляем новый пункт в выпадающий список типов TV на странице создания нового TV.
 
-![screenshot](/images/wp/modx-add-new-tv-type.png)
+<amp-img src="/images/wp/modx-add-new-tv-type.png" alt="screenshot" width="300" height="156"></amp-img>
 
 Добавляем Google Maps в админку
 -------------------------------
@@ -130,7 +130,7 @@ break;
 
 Выглядеть это будет вот так:
 
-![screenshot](/images/wp/modx-add-new-tv-type2.png)
+<amp-img src="/images/wp/modx-add-new-tv-type2.png" alt="screenshot" width="300" height="153"></amp-img>
 
 Использование Google Map в ModX
 -------------------------------
@@ -168,4 +168,4 @@ jQuery(document).ready(function(){
 
 Ну и собственно скриншот:
 
-![screenshot](/images/wp/modx-add-new-tv-type3.png)
+<amp-img src="/images/wp/modx-add-new-tv-type3.png" alt="screenshot" width="300" height="246"></amp-img>

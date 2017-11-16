@@ -7,7 +7,7 @@ tags: [add_action, add_option, add_settings_section, add_settings_field, add_the
 
 Here is example screenshot:
 
-![screenshot](/images/wp/example.png)
+<amp-img src="/images/wp/example.png" alt="screenshot" width="813" height="1626"></amp-img>
 
 ```php
 <?php

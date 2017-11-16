@@ -175,4 +175,4 @@ GROUP BY c-ip
 
 **Configure logs**
 
-![screenshot](/images/wp/image02.png)
+<amp-img src="/images/wp/image02.png" alt="screenshot" width="928" height="509"></amp-img>

@@ -104,7 +104,7 @@ Now we are going to add two additional capabilities: Make Video URL custom field
 Required Custom Field
 ---------------------
 
-![Required custom field notice](/images/cptwrcf/required.png)
+<amp-img src="/images/cptwrcf/required.png" alt="Required custom field notice" width="870" height="654"></amp-img>
 
 ```php
 add_filter('wp_insert_post_data', function (array $data) {
@@ -140,7 +140,7 @@ add_action('admin_notices', function () {
 Unique Custom Field
 -------------------
 
-![Unique custom field notice](/images/cptwrcf/unique.png)
+<amp-img src="/images/cptwrcf/unique.png" alt="Unique custom field notice" width="870" height="654"></amp-img>
 
 ```php
 add_filter('wp_insert_post_data', function (array $data, array $raw) {

@@ -226,7 +226,9 @@ Successful Tests
 Here is some screen shots, tests also can be runned from VisualStudio and
 NUnit GUI.
 
-![screenshot](/images/wp/133.png) ![screenshot](/images/wp/217.png)
+<amp-img src="/images/wp/133.png" alt="screenshot" width="839" height="565"></amp-img>
+
+<amp-img src="/images/wp/217.png" alt="screenshot" width="760" height="489"></amp-img>
 
 As of making nice reports, here is starter kit:
 

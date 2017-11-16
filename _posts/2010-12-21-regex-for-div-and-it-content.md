@@ -5,7 +5,7 @@ title: Regex for div and it content
 tags: [.net, c#, javascript, php, regex]
 ---
 
-![screenshot](/images/wp/image03.png)
+<amp-img src="/images/wp/image03.png" alt="screenshot" width="527" height="192"></amp-img>
 
 C#
 --

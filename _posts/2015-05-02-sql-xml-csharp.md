@@ -36,7 +36,7 @@ Sample database
 
 We are going to build following database:
 
-![Database](http://yuml.me/e8e4027f.svg)
+<amp-img src="http://yuml.me/e8e4027f.svg" alt="Database" width="320" height="477"></amp-img>
 
 Here is sample SQL on which tests will be made:
 

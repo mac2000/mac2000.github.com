@@ -5,7 +5,7 @@ title: php normal gaussian distribution min max
 tags: [algorithm, gaus, gauss, generator, php, rand, random, rnd]
 ---
 
-![screenshot](/images/wp/rnd_vb_gauss.png)
+<amp-img src="/images/wp/rnd_vb_gauss.png" alt="screenshot" width="491" height="328"></amp-img>
 
 ```php
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
