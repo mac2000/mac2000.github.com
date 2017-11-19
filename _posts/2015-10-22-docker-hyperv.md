@@ -4,7 +4,6 @@ title: Docker on Windows Hyper-V
 tags: [docker, hyperv, provision, tls, certificates]
 ---
 
-<script async custom-element="amp-youtube" src="https://cdn.ampproject.org/v0/amp-youtube-0.1.js"></script>
 <amp-youtube
     data-videoid="eQ40Tx0F8Yc"
     layout="responsive"
