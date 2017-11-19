@@ -4,7 +4,11 @@ title: Docker on Windows Hyper-V
 tags: [docker, hyperv, provision, tls, certificates]
 ---
 
-<iframe width="420" height="315" src="https://www.youtube.com/embed/eQ40Tx0F8Yc" frameborder="0" allowfullscreen></iframe>
+<script async custom-element="amp-youtube" src="https://cdn.ampproject.org/v0/amp-youtube-0.1.js"></script>
+<amp-youtube
+    data-videoid="eQ40Tx0F8Yc"
+    layout="responsive"
+    width="420" height="315"></amp-youtube>
 
 Provision of docker host
 ------------------------

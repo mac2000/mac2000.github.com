@@ -24,7 +24,7 @@ FROM Posts AS P
 which will return something like this:
 
 PostId | Title             | Categories
------: | ----------------- | ----------
+------ | ----------------- | ----------
 1      | Composer tutorial | IT
 2      | Going agile       | IT,Management
 3      | XSL your XML      | IT

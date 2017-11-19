@@ -7,7 +7,7 @@ tags: [pipes, rss, yahoo, yahoo_pipes]
 
 As example we have very big rss feed and want to get one item per day. All item in feed do not have any pudDate.
 
-![screenshot](/images/wp/117.png)
+<amp-img src="/images/wp/117.png" alt="screenshot" width="905" height="650"></amp-img>
 
 `dateinput` - will contain default value of start date.
 
@@ -37,6 +37,6 @@ We have xml like this one:
 
 And want to get rss that will retrive one item per day from start date.
 
-![screenshot](/images/wp/28.png)
+<amp-img src="/images/wp/28.png" alt="screenshot" width="1662" height="1359"></amp-img>
 
 In this example you may see how to use string regex, generate pseudo random number, work with dates, string, numbers, how to format date, and how to work with loop module.
