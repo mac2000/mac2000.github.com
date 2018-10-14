@@ -1,8 +1,7 @@
-mac2000.github.com
-==================
+# mac2000.github.com
 
-```
-docker run -it --rm -v "$PWD":/usr/src/app -p 4000:4000 starefossen/github-pages
+```bash
+docker run -it --rm -v $PWD:/usr/src/app -p 4000:4000 starefossen/github-pages
 ```
 
 https://haisum.github.io/2014/11/07/jekyll-pygments-supported-highlighters/

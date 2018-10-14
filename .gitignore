@@ -4,3 +4,4 @@ _site/
 .bundle
 vendor
 Thumbs.db
+.DS_Store
