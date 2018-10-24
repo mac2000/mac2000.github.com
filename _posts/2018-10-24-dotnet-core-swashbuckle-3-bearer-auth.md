@@ -4,7 +4,7 @@ title: Dotnet Core Swashbuckle 3 Bearer Auth
 tags: [dotnet, swashbuckle, swagger, bearer, jwt]
 ---
 
-<amp-img src="/images/swaggerui3bearer.png" alt="swagger ui 3 bearer auth" width="846" height="495"></amp-img>
+![swagger ui 3 bearer auth](/images/swaggerui3bearer.png)
 
 Suppose you have your API already, it is requires bearer jwt auth and you already added and configured [swashbuckle](https://github.com/domaindrivendev/Swashbuckle.AspNetCore).
 
@@ -30,7 +30,7 @@ services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 The problem with new swagger ui 3 is that it has limited auth capabilities
 
-<amp-img src="/images/swaggerui3authpopup.png" alt="swagger ui 3 authorization popup" width="691" height="379"></amp-img>
+![swagger ui 3 authorization popup](/images/swaggerui3authpopup.png)
 
 e.g. you gonna need to go to your auth server, authenticate there, grab your token, paste it here, and whenever you refresh window with swagger - start over :(
 
