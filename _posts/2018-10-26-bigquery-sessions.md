@@ -134,3 +134,5 @@ SELECT AVG(views) AS avg_views_per_session FROM (
 ```
 
 [Main source](https://blog.modeanalytics.com/finding-user-sessions-sql/)
+
+Note: to get ascii art use `bq query --nouse_legacy_sql "select * from acme"`
