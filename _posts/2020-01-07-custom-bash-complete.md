@@ -4,6 +4,8 @@ title: custom bash autocomplete
 tags: [bash, autocomplete]
 ---
 
+<amp-img src="/images/2020/bash_autocomplete/bash_autocomplete.gif" alt="bash autocomplete for custom function" width="643" height="431"></amp-img>
+
 Often I do need to check which containers in a given kubernetes deployment in which status, to retrieve such info following command might be used:
 
 ```bash
