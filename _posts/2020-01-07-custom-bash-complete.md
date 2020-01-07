@@ -55,6 +55,7 @@ here are pretty nice documentation of [how bash autocompletion works](https://de
 In my case I added `/usr/local/etc/bash_completion.d/po-kube`:
 
 ```bash
+{% raw %}
 _po-kube() {
     local cur prev opts
     COMPREPLY=()
@@ -68,6 +69,7 @@ _po-kube() {
     fi
 }
 complete -F _po-kube po-kube
+{% endraw %}
 ```
 
 and from now on I can do something like:
